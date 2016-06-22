@@ -1,12 +1,11 @@
 from json import dump
 from sys import path
 
-path.insert(0, '../dirFactory')
+path.insert(0, '../dir_factory')
 from dirMethods import fileManager
 
-# relative path to test file
-# (test instead of train because of size)
 RAW_DIR = 'raw_files/{file}.txt'
+# test instead of train because of size
 MXM_PATH = RAW_DIR.format(file='mxm_dataset_test')
 CURSE_PATH = RAW_DIR.format(file='google_twunter_lol')
 CURSES = 'curses.json'
@@ -32,13 +31,11 @@ def bagOfCurse():
 
     curseFile = fileManager(CURSE_PATH, 'r')
 
-    curses = filter(
+    return filter(
         None, [word.partition(':')[0].strip().strip()
                for word in curseFile.split()[1:-1]
                if len(word) > 3 and any(char.isdigit() for char in word)]
     )
-
-    return curses
 
 
 def intersectLists():
@@ -54,7 +51,9 @@ def mapIndices():
     curses = intersectLists()
     words = bagOfWords()
 
-    return {curseWord: words.index(curseWord) for curseWord in curses}
+    return {
+        curseWord: words.index(curseWord) for curseWord in curses
+    }
 
 
 def dumpJSON():
