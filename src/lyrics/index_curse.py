@@ -52,7 +52,7 @@ def mapIndices():
     words = bagOfWords()
 
     return {
-        curseWord: words.index(curseWord) for curseWord in curses
+        curseWord: (words.index(curseWord) + 1) for curseWord in curses
     }
 
 
