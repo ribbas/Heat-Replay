@@ -7,6 +7,8 @@ WIKI_URL = 'https://en.wikipedia.org/'
 BASE_URL = WIKI_URL + 'wiki/Billboard_Year-End_Hot_100_singles_of_{year}'
 titleTag = r'<a.*?>(.+?)</a>'
 titleTagRe = compile(titleTag)
+falseTag = r'<td>\d+</td>'
+falseTagRe = compile(falseTag)
 
 
 def iterateYears(begin, end):
@@ -31,19 +33,34 @@ def soupify(html):
 
     for entrySoup in soup.find_all('table', {'class': 'wikitable sortable'}):
         for songSoup in entrySoup.find_all('tr'):
-            yoSoup = songSoup.find_all('td')
+
+            mixedSoup = songSoup.find_all('td')
+
             try:
-                songs.append('<SEP>'.join(titleTagRe.findall(str(yoSoup[1])) +
-                                          titleTagRe.findall(str(yoSoup[0]))))
+
+                titles = titleTagRe.findall(mixedSoup[1].encode('utf-8')) \
+                    if falseTagRe.findall(mixedSoup[0].encode('utf-8')) \
+                    else titleTagRe.findall(mixedSoup[0].encode('utf-8'))
+
+                artists = titleTagRe.findall(mixedSoup[2].encode('utf-8')) \
+                    if falseTagRe.findall(mixedSoup[0].encode('utf-8')) \
+                    else titleTagRe.findall(mixedSoup[1].encode('utf-8'))
+
+                songs.append('<SEP>'.join([artists[0]] + titles))
+
+            except IndexError:
+                continue
+
             except Exception as e:
                 print e
                 continue
 
-    print songs
+    return songs
 
-test = iterateYears(1960, 1980)
 
-for i in test:
-    soupify(i)
+if __name__ == '__main__':
 
-# soupify(test)
+    charts = iterateYears(2000, 2010)
+
+    for chart in charts:
+        print soupify(chart)
