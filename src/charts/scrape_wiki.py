@@ -62,5 +62,9 @@ if __name__ == '__main__':
 
     charts = iterateYears(2000, 2010)
 
+    charted = []
+
     for chart in charts:
-        print soupify(chart)
+        charted.extend(soupify(chart))
+
+    print charted
