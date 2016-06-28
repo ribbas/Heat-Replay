@@ -1,11 +1,8 @@
 from json import load
-from sys import path
 
 from pandas import DataFrame
 
-path.insert(0, '../dir_factory')
-from dirMethods import fileManager
-
+from settings import *
 
 JSON_PATH = 'curses.json'
 # DATASET_PATH = 'raw_files/mxm_dataset_test.txt'

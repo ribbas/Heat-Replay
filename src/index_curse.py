@@ -1,10 +1,8 @@
 from json import dump
-from sys import path
 
-path.insert(0, '../dir_factory')
-from dirMethods import fileManager
+from settings import *
 
-RAW_DIR = 'raw_files/{file}.txt'
+RAW_DIR = DATA_DIR + 'mxm/{file}.txt'
 # test instead of train because of size
 MXM_PATH = RAW_DIR.format(file='mxm_dataset_test')
 CURSE_PATH = RAW_DIR.format(file='google_twunter_lol')

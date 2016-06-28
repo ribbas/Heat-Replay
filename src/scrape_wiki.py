@@ -3,6 +3,8 @@ from re import compile
 from bs4 import BeautifulSoup
 from requests import get
 
+from settings import *
+
 WIKI_URL = 'https://en.wikipedia.org/'
 BASE_URL = WIKI_URL + 'wiki/Billboard_Year-End_Hot_100_singles_of_{year}'
 titleTag = r'<a.*?>(.+?)</a>'
@@ -46,7 +48,7 @@ def soupify(html):
                     if falseTagRe.findall(mixedSoup[0].encode('utf-8')) \
                     else titleTagRe.findall(mixedSoup[1].encode('utf-8'))
 
-                songs.append('<SEP>'.join([artists[0]] + titles))
+                songs.append('<SEP>'.join([artists[0]] + [titles[0]]))
 
             except IndexError:
                 continue
@@ -60,11 +62,11 @@ def soupify(html):
 
 if __name__ == '__main__':
 
-    charts = iterateYears(2000, 2010)
+    charts = iterateYears(1961, 2010)
 
     charted = []
 
     for chart in charts:
-        charted.extend(soupify(chart))
+        charted.extend(song for song in soupify(chart) if '<SEP>' in song)
 
-    print charted
+    fileManager('charted.txt', 'w', '\n'.join(sorted(set(charted))))
