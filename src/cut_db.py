@@ -1,82 +1,45 @@
 from settings import *
 
-print DATA_DIR
-RAW_DIR = DATA_DIR + 'mxm/{file}.txt'
-MXM_PATH = RAW_DIR.format(file='mxm_779k_matches')
-
-# LYRICS_DIR = '../lyrics/'
-# LYRICS_PATH = LYRICS_DIR + '{year}/{file}.txt'
-
-# LISTS_DIR = '../lists/'
-# INIT_LIST_PATH = LISTS_DIR + 'songList.txt'
-# FAILURE_PATH = LISTS_DIR + 'temp_failed.txt'
-# QUEUE_PATH = LISTS_DIR + 'queue.txt'
+RAW_DIR = DATA_DIR + '{file}.txt'
+MXM_PATH = RAW_DIR.format(file='mxm/mxm_779k_matches')
+FILE_LINE_NUM = RAW_DIR.format(file='line')
+FILTERED_MXM = RAW_DIR.format(file='mxm_filtered')
 
 
-def newFrame(start):
+def newFrame(colStart, colEnd):
+
+    newFrame = []
 
     with open(MXM_PATH) as lyricsFile:
 
         rawNewFrame = ''
+        start = fileManager(FILE_LINE_NUM, 'r')
 
         # to avoid the entire file from being read into memory
         # (enumerate(x) uses x.next)
         for lineNum, line in enumerate(lyricsFile):
 
-            if lineNum >= start and lineNum <= (start + 100):
-                rawNewFrame += line
+            try:
 
-    return filter(None, ['<SEP>'.join(row.split('<SEP>')[4:6])
-                         for row in rawNewFrame.split('\n')])
+                if lineNum >= int(start):
+                    rawNewFrame += line
 
+            except KeyboardInterrupt:
+                fileManager(FILE_LINE_NUM, 'w', str(lineNum))
+                break
 
-# def __saveProgress(queue, success, failed):
+    for row in rawNewFrame.split('\n'):
 
-#     newQueue = sorted(queue - success - failed)
+        rowSplit = '<SEP>'.join(row.split('<SEP>')[colStart:colEnd])
 
-#     fileManager(FAILURE_PATH, 'a', output='\n'.join(sorted(failed)))
-#     fileManager(QUEUE_PATH, 'w', output='\n'.join(newQueue))
+        try:
+            if rowSplit[0].decode('ascii'):
+                newFrame.extend([rowSplit])
 
-#     if len(newQueue):
-#         exit('\n' + str(len(newQueue)) +
-#              ' songs left.\nSaving progress.')
+        except Exception as e:
+            print e
+            continue
 
-#     exit('Queue is empty, scraping completed!')
+    return '\n'.join(sorted(set(filter(None, newFrame))))
 
-
-# def scrape():
-
-#     rawFile = fileManager(path, 'r')
-#     success = set()
-#     failed = set()
-
-#     for line in rawFile:
-
-#         try:
-#             song = Lyrics(line)
-#             song.scrape()
-#             lyrics = song.lyrics
-
-#             if lyrics:
-#                 fileManager(
-#                     LYRICS_PATH.format(
-#                         year=line.split('/')[0],
-#                         file=song.name
-#                     ), 'w', song.lyrics
-#                 )
-#                 success.add(line)
-
-#             else:
-#                 failed.add(line)
-
-#         except KeyboardInterrupt:
-#             break
-
-#         except Exception as e:
-#             print e
-#             continue
-
-#     __saveProgress(set(rawFile), success, failed)
-
-
-print newFrame(18)
+fileManager(FILTERED_MXM, 'w', newFrame(4, 6))
