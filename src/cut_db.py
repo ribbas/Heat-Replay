@@ -1,3 +1,5 @@
+from string import ascii_lowercase
+
 from settings import *
 
 RAW_DIR = DATA_DIR + '{file}.txt'
@@ -16,7 +18,6 @@ def newFrame(colStart, colEnd):
         start = fileManager(FILE_LINE_NUM, 'r')
 
         # to avoid the entire file from being read into memory
-        # (enumerate(x) uses x.next)
         for lineNum, line in enumerate(lyricsFile):
 
             try:
@@ -30,14 +31,23 @@ def newFrame(colStart, colEnd):
 
     for row in rawNewFrame.split('\n'):
 
-        rowSplit = '<SEP>'.join(row.split('<SEP>')[colStart:colEnd])
+        rowSplit = '<SEP>'.join(
+            endRe.sub(
+                '', moreFilterRe.sub(
+                    '', filterRe.sub(
+                        '', col.lower()
+                    )
+                )
+            ).rstrip()
+            for col in row.split('<SEP>')[colStart:colEnd]
+        )
 
         try:
-            if rowSplit[0].decode('ascii'):
+            if rowSplit[0].decode('ascii') and \
+                    rowSplit[0][0] in ascii_lowercase:
                 newFrame.extend([rowSplit])
 
-        except Exception as e:
-            print e
+        except Exception:
             continue
 
     return '\n'.join(sorted(set(filter(None, newFrame))))

@@ -48,7 +48,11 @@ def soupify(html):
                     if falseTagRe.findall(mixedSoup[0].encode('utf-8')) \
                     else titleTagRe.findall(mixedSoup[1].encode('utf-8'))
 
-                songs.append('<SEP>'.join([artists[0]] + [titles[0]]))
+                songs.append(
+                    '<SEP>'.join(
+                        song.lower() for song in [artists[0]] + [titles[0]]
+                    )
+                )
 
             except IndexError:
                 continue
