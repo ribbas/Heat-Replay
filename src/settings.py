@@ -9,14 +9,30 @@ Methods for common file IO and directory management operations
 global DATA_DIR
 DATA_DIR = 'data/'
 
-filterPat = r'[\{\(\[].*?[\)\]\}/]'
-filterRe = compile(filterPat)
+excludePat = r'[\{\(\[].*?[\)\]\}/\\]'
+excludeRe = compile(excludePat)
 
 moreFilterPat = r'^.*?\('
 moreFilterRe = compile(moreFilterPat)
 
-endPat = r'[\)\]\}]'
+endPat = r'[\)\]\}\-\'\"\,:]'
 endRe = compile(endPat)
+
+whtSpacePat = r'\s+'
+whtSpaceRe = compile(whtSpacePat)
+
+
+def regexify(title):
+
+    return whtSpaceRe.sub(
+        ' ', endRe.sub(
+            ' ', moreFilterRe.sub(
+                '', excludeRe.sub(
+                    '', title.lower()
+                )
+            )
+        ).rstrip().lstrip()
+    )
 
 
 def fileManager(path, mode, output=''):

@@ -32,19 +32,12 @@ def newFrame(colStart, colEnd):
     for row in rawNewFrame.split('\n'):
 
         rowSplit = '<SEP>'.join(
-            endRe.sub(
-                '', moreFilterRe.sub(
-                    '', filterRe.sub(
-                        '', col.lower()
-                    )
-                )
-            ).rstrip()
-            for col in row.split('<SEP>')[colStart:colEnd]
+            regexify(col) for col in row.split('<SEP>')[colStart:colEnd]
         )
 
         try:
-            if rowSplit[0].decode('ascii') and \
-                    rowSplit[0][0] in ascii_lowercase:
+            if rowSplit.decode('ascii') and \
+                    rowSplit[0] in ascii_lowercase:
                 newFrame.extend([rowSplit])
 
         except Exception:

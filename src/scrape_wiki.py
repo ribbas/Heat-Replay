@@ -1,5 +1,3 @@
-from re import compile
-
 from bs4 import BeautifulSoup
 from requests import get
 
@@ -50,7 +48,7 @@ def soupify(html):
 
                 songs.append(
                     '<SEP>'.join(
-                        song.lower() for song in [artists[0]] + [titles[0]]
+                        regexify(col) for song in [artists[0]] + [titles[0]]
                     )
                 )
 
@@ -73,4 +71,4 @@ if __name__ == '__main__':
     for chart in charts:
         charted.extend(song for song in soupify(chart) if '<SEP>' in song)
 
-    fileManager('charted.txt', 'w', '\n'.join(sorted(set(charted))))
+    fileManager('data/charted.txt', 'w', '\n'.join(sorted(set(charted))))
