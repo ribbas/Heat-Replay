@@ -1,13 +1,26 @@
 #!/usr/bin/env python
-
-from re import compile
-
 """settings.py
 Methods for common file IO and directory management operations
 """
 
+from re import compile
+
+
 global DATA_DIR
 DATA_DIR = 'data/'
+
+MXM_DIR = 'mxm/'
+MSD_DIR = 'MillionSongSubset/'
+
+RAW_DIR = DATA_DIR + '{file}.txt'
+
+MXM = RAW_DIR.format(file=MXM_DIR + 'mxm_779k_matches')
+FILTERED_MXM = RAW_DIR.format(file='mxm_filtered')
+
+CHARTED = RAW_DIR.format(file='charted')
+CHARTED_MXM = RAW_DIR.format(file='charted_mxm')
+CHARTED_FAIL = RAW_DIR.format(file='charted_failed')
+
 
 excludePat = r'[\{\(\[].*?[\)\]\}/\\]'
 excludeRe = compile(excludePat)

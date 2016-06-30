@@ -2,17 +2,12 @@ from string import ascii_lowercase
 
 from settings import *
 
-RAW_DIR = DATA_DIR + '{file}.txt'
-MXM_PATH = RAW_DIR.format(file='mxm/mxm_779k_matches')
-FILE_LINE_NUM = RAW_DIR.format(file='line')
-FILTERED_MXM = RAW_DIR.format(file='mxm_filtered')
-
 
 def newFrame(colStart, colEnd):
 
     newFrame = []
 
-    with open(MXM_PATH) as lyricsFile:
+    with open(MXM) as lyricsFile:
 
         rawNewFrame = ''
         start = fileManager(FILE_LINE_NUM, 'r')
@@ -20,14 +15,8 @@ def newFrame(colStart, colEnd):
         # to avoid the entire file from being read into memory
         for lineNum, line in enumerate(lyricsFile):
 
-            try:
-
-                if lineNum >= int(start):
-                    rawNewFrame += line
-
-            except KeyboardInterrupt:
-                fileManager(FILE_LINE_NUM, 'w', str(lineNum))
-                break
+            if lineNum >= int(start):
+                rawNewFrame += line
 
     for row in rawNewFrame.split('\n'):
 

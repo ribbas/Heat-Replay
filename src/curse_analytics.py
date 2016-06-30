@@ -5,7 +5,6 @@ from pandas import DataFrame
 from settings import *
 
 JSON_PATH = 'curses.json'
-# DATASET_PATH = 'raw_files/mxm_dataset_test.txt'
 DATASET_PATH = 'test.txt'
 
 
