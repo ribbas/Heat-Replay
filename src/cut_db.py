@@ -6,11 +6,12 @@ from settings import *
 def newFrame(colStart, colEnd):
 
     newFrame = []
+    compileTitleRe()
 
     with open(MXM) as lyricsFile:
 
         rawNewFrame = ''
-        start = fileManager(FILE_LINE_NUM, 'r')
+        start = 18
 
         # to avoid the entire file from being read into memory
         for lineNum, line in enumerate(lyricsFile):

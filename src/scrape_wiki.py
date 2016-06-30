@@ -5,6 +5,7 @@ from settings import *
 
 WIKI_URL = 'https://en.wikipedia.org/'
 BASE_URL = WIKI_URL + 'wiki/Billboard_Year-End_Hot_100_singles_of_{year}'
+
 titleTag = r'<a.*?>(.+?)</a>'
 titleTagRe = compile(titleTag)
 falseTag = r'<td>\d+</td>'
@@ -26,6 +27,8 @@ def iterateYears(begin, end):
 
 
 def soupify(html):
+
+    compileTitleRe()
 
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -71,4 +74,4 @@ if __name__ == '__main__':
     for chart in charts:
         charted.extend(song for song in soupify(chart) if '<SEP>' in song)
 
-    fileManager('data/charted.txt', 'w', '\n'.join(sorted(set(charted))))
+    fileManager(CHARTED, 'w', '\n'.join(sorted(set(charted))))
