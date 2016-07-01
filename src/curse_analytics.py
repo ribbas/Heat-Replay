@@ -1,24 +1,20 @@
 from json import load
-
 from pandas import DataFrame
-
 from settings import *
 
-JSON_PATH = 'curses.json'
-DATASET_PATH = 'test.txt'
+TEST_PATH = 'test.txt'
 
 
 def loadJSON():
+    """Loads in curse indices"""
 
-    with open(JSON_PATH) as inputJSON:
-        inputJSON = load(inputJSON)
-
-    return inputJSON
+    with open(CURSES) as inputJSON:
+        return load(inputJSON)
 
 
 def readSet():
 
-    dataset = fileManager(DATASET_PATH, 'r')
+    dataset = fileManager(TEST_PATH, 'r')
 
     curses = loadJSON()
 

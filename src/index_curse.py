@@ -3,10 +3,6 @@ from json import dump
 from settings import *
 
 RAW_DIR = DATA_DIR + 'mxm/{file}.txt'
-# test instead of train because of size
-MXM_PATH = RAW_DIR.format(file='mxm_dataset_test')
-CURSE_PATH = RAW_DIR.format(file='google_twunter_lol')
-CURSES = 'curses.json'
 
 
 def bagOfWords():
