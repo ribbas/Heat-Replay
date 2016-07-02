@@ -50,7 +50,7 @@ def soupify(html):
                     else titleTagRe.findall(mixedSoup[1].encode('utf-8'))
 
                 songs.append(
-                    '<SEP>'.join(
+                    sep.join(
                         regexify(col) for song in [artists[0]] + [titles[0]]
                     )
                 )
@@ -72,6 +72,6 @@ if __name__ == '__main__':
     charted = []
 
     for chart in charts:
-        charted.extend(song for song in soupify(chart) if '<SEP>' in song)
+        charted.extend(song for song in soupify(chart) if sep in song)
 
     fileManager(CHARTED, 'w', '\n'.join(sorted(set(charted))))

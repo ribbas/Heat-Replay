@@ -1,5 +1,7 @@
 from settings import *
 
+raw = True
+
 
 def loadSet(fileName):
 
@@ -17,12 +19,25 @@ def loadSet(fileName):
 
 if __name__ == '__main__':
 
-    fileManager(
-        CHARTED_MXM, 'w',
-        ''.join(sorted(list(loadSet(CHARTED) & loadSet(FILTERED_MXM))))
-    )
+    chartedSet = loadSet(CHARTED)
 
-    fileManager(
-        CHARTED_FAIL, 'w',
-        ''.join(sorted(list(loadSet(CHARTED) - loadSet(FILTERED_MXM))))
-    )
+    filteredMXM = [
+        sep.join(col.split(sep)[1:3]) for col in loadSet(FILTERED_MXM_RAW)
+    ]
+
+    trackIDs = [col.split(sep)[0] for col in loadSet(FILTERED_MXM_RAW)]
+
+    intersections = sorted(list(chartedSet & set(filteredMXM)))
+
+    filteredTrackIDs = []
+
+    for title in range(len(intersections)):
+        if intersections[title] in filteredMXM:
+            filteredTrackIDs.append(
+                trackIDs[filteredMXM.index(intersections[title])]
+            )
+
+    # disjoints = sorted(list(loadSet(CHARTED) - loadSet(FILTERED_MXM)))
+
+    fileManager(CHARTED_TIDS, 'w', '\n'.join(sorted(filteredTrackIDs)))
+    # fileManager(CHARTED_FAIL, 'w', ''.join(disjoints))
