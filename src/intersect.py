@@ -21,23 +21,24 @@ if __name__ == '__main__':
 
     chartedSet = loadSet(CHARTED)
 
-    filteredMXM = [
+    filteredMXMSet = [
         sep.join(col.split(sep)[1:3]) for col in loadSet(FILTERED_MXM_RAW)
     ]
 
     trackIDs = [col.split(sep)[0] for col in loadSet(FILTERED_MXM_RAW)]
 
-    intersections = sorted(list(chartedSet & set(filteredMXM)))
+    intersections = sorted(list(chartedSet & set(filteredMXMSet)))
 
     filteredTrackIDs = []
 
     for title in range(len(intersections)):
-        if intersections[title] in filteredMXM:
+        if intersections[title] in filteredMXMSet:
             filteredTrackIDs.append(
-                trackIDs[filteredMXM.index(intersections[title])]
+                trackIDs[filteredMXMSet.index(intersections[title])]
             )
 
-    # disjoints = sorted(list(loadSet(CHARTED) - loadSet(FILTERED_MXM)))
+    disjoints = sorted(list(chartedSet - set(filteredMXMSet)))
 
     fileManager(CHARTED_TIDS, 'w', '\n'.join(sorted(filteredTrackIDs)))
-    # fileManager(CHARTED_FAIL, 'w', ''.join(disjoints))
+    fileManager(CHARTED_MXM, 'w', ''.join(intersections))
+    fileManager(CHARTED_FAIL, 'w', ''.join(disjoints))

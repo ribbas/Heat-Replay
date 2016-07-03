@@ -1,5 +1,3 @@
-from string import ascii_lowercase
-
 from settings import *
 
 
@@ -8,7 +6,7 @@ def newFrame(colStart, colEnd, raw=False):
     newFrame = []
     compileTitleRe()
 
-    with open(MXM) as lyricsFile:
+    with open(MXM_INDEX) as lyricsFile:
 
         rawNewFrame = ''
         start = 18
@@ -32,11 +30,7 @@ def newFrame(colStart, colEnd, raw=False):
                  for col in row.split(sep)[colStart:colEnd]]
             )
 
-            artist = rowSplit.split(sep)[1][0] \
-                if raw else rowSplit.split(sep)[0][0]
-
-            if rowSplit.decode('ascii') and artist in ascii_lowercase:
-                newFrame.extend([rowSplit])
+            newFrame.extend([rowSplit])
 
         except Exception:
             continue

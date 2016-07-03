@@ -5,46 +5,64 @@ Global variables and methods for Heat Replay
 
 from re import compile  # also used in the other scripts
 
+
 # ----------------- Global directories ----------------- #
 
 DATA_DIR = 'data/'  # main dir of all datasets
 
-ARCHIVE_DIR = 'archive/'  # main dir of all archived datasets
+FILE = '{file}.txt'
 
-MXM_DIR = ARCHIVE_DIR + 'mxm/'  # dir for all mxm datasets
-MSD_DIR = ARCHIVE_DIR + 'MillionSongSubset/'  # dir for all MSD datasets
+ARCHIVE_DIR = DATA_DIR + 'archive/'  # main dir of all archived datasets
+TRANS_DIR = DATA_DIR + 'transitional/'  # main dir of all transitional datasets
+FINAL_DIR = DATA_DIR + 'final/'  # main dir of all final datasets
 
-RAW_DIR = DATA_DIR + '{file}.txt'  # format for text dataset
+MXM_DIR = ARCHIVE_DIR + 'mxm/' + FILE  # dir for all mxm datasets
+MSD_DIR = ARCHIVE_DIR + 'MillionSongSubset/' + FILE  # dir for all MSD datasets
 
-MXM = RAW_DIR.format(
-    file=MXM_DIR + 'mxm_779k_matches')  # index of all songs in mxm
 
-MXM_PATH = RAW_DIR.format(file=MXM_DIR + 'mxm_dataset_test')  # test mxm
+# ----------------- Global file paths ----------------- #
 
-FILTERED_MXM = RAW_DIR.format(file='mxm_filtered')  # curtailed mxm index
+ARCHIVE = ARCHIVE_DIR + FILE  # main dir of all archived datasets
+TRANS = TRANS_DIR + FILE  # main dir of all transitional datasets
+FINAL = FINAL_DIR + FILE  # main dir of all final datasets
 
-FILTERED_MXM_RAW = RAW_DIR.format(
+# --------- Archived datasets --------- #
+
+MXM_INDEX = MXM_DIR.format(
+    file='mxm_779k_matches')  # index of all songs in mxm
+
+MXM_PATH = MXM_DIR.format(file='mxm_dataset_test')  # test mxm
+
+CURSE_PATH = ARCHIVE.format(
+    file='google_twunter')  # raw list of curse words by Google
+
+CHARTED = ARCHIVE.format(file='charted')  # songs that charted
+
+# --------- Transitional datasets --------- #
+
+FILTERED_MXM = TRANS.format(file='mxm_filtered')  # curtailed mxm index
+
+FILTERED_MXM_RAW = TRANS.format(
     file='mxm_filtered_raw')  # curtailed mxm index with track IDs
 
-CHARTED = RAW_DIR.format(file=ARCHIVE_DIR + 'charted')  # songs that charted
-
-CHARTED_MXM = RAW_DIR.format(
+CHARTED_MXM = TRANS.format(
     file='charted_mxm')  # intersection of charted and mxm
 
-CHARTED_TIDS = RAW_DIR.format(
-    file='charted_tid')  # intersection of charted and mxm
-
-CHARTED_FAIL = RAW_DIR.format(
+CHARTED_FAIL = TRANS.format(
     file='charted_failed')  # difference of charted and mxm
 
-CURSE_PATH = RAW_DIR.format(
-    file='google_twunter_lol')  # raw list of curse words by Google
+# --------- Final datasets --------- #
 
-CURSES = DATA_DIR + 'curses.json'  # indexed curse words
+CHARTED_TIDS = FINAL.format(
+    file='charted_tid')  # intersection of charted and mxm
+
+CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
+
 
 # ----------------- Global variables ----------------- #
 
 sep = '<SEP>'  # delimiter for all datasets
+
 
 # ----------------- Local variables ----------------- #
 
