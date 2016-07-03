@@ -10,7 +10,7 @@ from re import compile  # also used in the other scripts
 
 DATA_DIR = 'data/'  # main dir of all datasets
 
-FILE = '{file}.txt'
+FILE = '{file}.txt'  # file formats
 
 ARCHIVE_DIR = DATA_DIR + 'archive/'  # main dir of all archived datasets
 TRANS_DIR = DATA_DIR + 'transitional/'  # main dir of all transitional datasets
@@ -120,3 +120,19 @@ def fileManager(path, mode, output=''):
 
         elif mode == 'r':
             return file.read()
+
+
+def sortSet(dataset):
+
+    setName = set()
+
+    with open(dataset) as lyricsFile:
+
+        # to avoid the entire file from being read into memory
+        for lineNum, line in enumerate(lyricsFile):
+
+            setName.add(line)
+
+    setName = ''.join(sorted(list(setName)))
+
+    fileManager(dataset, 'w', setName)

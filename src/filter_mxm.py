@@ -14,7 +14,7 @@ def newFrame(colStart, colEnd, raw=False):
         # to avoid the entire file from being read into memory
         for lineNum, line in enumerate(lyricsFile):
 
-            if lineNum >= int(start):
+            if lineNum >= start:
                 rawNewFrame += line
 
     for row in rawNewFrame.split('\n'):
