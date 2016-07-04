@@ -12,9 +12,24 @@ def loadJSON():
         return load(inputJSON)
 
 
+def loadSet(fileName):
+
+    setName = []
+
+    with open(fileName) as lyricsFile:
+
+        # to avoid the entire file from being read into memory
+        for lineNum, line in enumerate(lyricsFile):
+
+            if lineNum > 18 and lineNum < 1000:
+                setName.append(line)
+
+    return setName
+
+
 def readSet():
 
-    dataset = fileManager(TEST_PATH, 'r')
+    dataset = loadSet(MXM_PATH)
 
     curses = loadJSON()
 
@@ -22,7 +37,7 @@ def readSet():
 
     maxRow = max(cursesVals) + 1
 
-    splitLyrics = [row.split(',') for row in dataset.split('\n')]
+    splitLyrics = [row.split(',') for row in dataset]
 
     mappedLyrics = {}
     df = []
@@ -49,4 +64,7 @@ def exportSet():
 
     print df[filteredCols]
 
-exportSet()
+
+if __name__ == '__main__':
+
+    exportSet()
