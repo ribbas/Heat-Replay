@@ -15,14 +15,16 @@ def loadJSON():
 def loadSet(fileName):
 
     setName = []
+    charted = fileManager(CHARTED_TIDS, 'r')
 
     with open(fileName) as lyricsFile:
 
         # to avoid the entire file from being read into memory
         for lineNum, line in enumerate(lyricsFile):
 
-            if lineNum > 18 and lineNum < 1000:
-                setName.append(line)
+            if lineNum > 18:
+                if line.split(',')[0] in charted:
+                    setName.append(line)
 
     return setName
 
@@ -46,7 +48,6 @@ def readSet():
 
         for cols in rows[2:maxRow]:
             mappedLyrics['track_id'] = rows[0]
-            mappedLyrics['mxm track id'] = rows[1]
             mappedLyrics[int(cols.partition(':')[0])] = \
                 int(cols.partition(':')[-1])
 
@@ -60,9 +61,11 @@ def exportSet():
 
     df = DataFrame(readSet()[0])
     cursesVals = readSet()[1]
-    filteredCols = [cols for cols in cursesVals if cols in list(df)]
+    filteredCols = ['track_id'] + \
+        [cols for cols in cursesVals if cols in list(df)]
 
-    print df[filteredCols]
+    df[filteredCols] = df[filteredCols].fillna(0)
+    df[filteredCols].to_csv('test1.csv')
 
 
 if __name__ == '__main__':
