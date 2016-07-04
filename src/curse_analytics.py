@@ -2,8 +2,6 @@ from json import load
 from pandas import DataFrame
 from settings import *
 
-TEST_PATH = 'test.txt'
-
 
 def loadJSON():
     """Loads in curse indices"""

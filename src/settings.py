@@ -38,6 +38,8 @@ CURSE_PATH = ARCHIVE.format(
 
 CHARTED = ARCHIVE.format(file='charted')  # songs that charted
 
+CHARTED2 = ARCHIVE.format(file='charted2')  # songs that charted
+
 # --------- Transitional datasets --------- #
 
 FILTERED_MXM = TRANS.format(file='mxm_filtered')  # curtailed mxm index
@@ -93,7 +95,7 @@ def regexify(title):
 
     return __reCompiles[3].sub(  # replace multiple \s with one \s
         ' ', __reCompiles[2].sub(  # replace excess punctuations with one \s
-            ' ', __reCompiles[1].sub(  # remove everything before '('
+            '', __reCompiles[1].sub(  # remove everything before '('
                 '', __reCompiles[0].sub(  # remove everything between brackets
                     '', title.lower()  # convert to lower case first
                 )
