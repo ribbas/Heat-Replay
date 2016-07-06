@@ -1,5 +1,6 @@
 from json import dump
 
+from context import settings
 from settings.filemgmt import fileManager
 from settings.paths import BOW, CURSE_RAW, CURSES, MXM_PATH
 

@@ -1,3 +1,4 @@
+from context import settings
 from settings.filemgmt import fileManager
 from settings.paths import FILTERED_MXM_RAW, MXM_INDEX, sep
 from settings.regexify import compileTitleRe, regexify
