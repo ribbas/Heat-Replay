@@ -1,4 +1,6 @@
-from settings import *
+from settings.filemgmt import fileManager
+from settings.paths import CHARTED, CHARTED_FAIL, CHARTED_MXM,
+CHARTED_TIDS, FILTERED_MXM_RAW, sep
 
 
 def loadSet(fileName):
@@ -8,8 +10,7 @@ def loadSet(fileName):
     with open(fileName) as lyricsFile:
 
         # to avoid the entire file from being read into memory
-        for lineNum, line in enumerate(lyricsFile):
-
+        for line in lyricsFile:
             setName.add(line)
 
     return setName

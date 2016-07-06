@@ -1,7 +1,10 @@
 from bs4 import BeautifulSoup
 from requests import get
 
-from settings import *
+from context import settings
+from settings.filemgmt import fileManager
+from settings.paths import CHARTED2, sep
+from settings.regexify import *
 
 WIKI_URL = 'https://en.wikipedia.org/'
 BASE_URL = WIKI_URL + 'wiki/Billboard_Year-End_Hot_100_singles_of_{year}'
@@ -56,7 +59,7 @@ def soupify(html, charted):
                     __sep = sep
                     songs.append(
                         __sep.join(
-                            regexify(col) for song in
+                            regexify(song) for song in
                             [artists[0]] + [titles[0]]
                         )
                     )
@@ -89,7 +92,7 @@ if __name__ == '__main__':
     charted = []
 
     for chart in charts:
-        charted.extend(song for song in soupify(chart, 2) if __sep in song)
+        charted.extend(song for song in soupify(chart, 1) if __sep in song)
 
     charted = '\n'.join(sorted(set(charted)))
 

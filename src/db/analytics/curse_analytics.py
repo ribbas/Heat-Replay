@@ -1,13 +1,7 @@
-from json import load
 from pandas import DataFrame
-from settings import *
 
-
-def loadJSON():
-    """Loads in curse indices"""
-
-    with open(CURSES) as inputJSON:
-        return load(inputJSON)
+from settings.filemgmt import fileManager, loadJSON
+from settings.paths import CHARTED_TIDS, CURSES, MXM_PATH
 
 
 def loadSet(fileName):
@@ -31,7 +25,7 @@ def readSet():
 
     dataset = loadSet(MXM_PATH)
 
-    curses = loadJSON()
+    curses = loadJSON(CURSES)
 
     cursesVals = dict(curses).values()
 

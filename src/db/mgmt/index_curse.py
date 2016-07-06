@@ -1,8 +1,7 @@
 from json import dump
 
-from settings import *
-
-RAW_DIR = DATA_DIR + 'mxm/{file}.txt'
+from settings.filemgmt import fileManager
+from settings.paths import BOW, CURSE_RAW, CURSES, MXM_PATH
 
 
 def bagOfWords():
@@ -10,12 +9,12 @@ def bagOfWords():
     with open(MXM_PATH) as lyricsFile:
 
         # to avoid the entire file from being read into memory
-        # (enumerate(x) uses x.next)
         for lineNum, line in enumerate(lyricsFile):
 
             # index 17 is the bag of words
             if lineNum == 17:
-                rawBagOfWords = line
+                rawBagOfWords = line[1:]
+                fileManager(BOW, 'w', rawBagOfWords)
                 break
 
     return rawBagOfWords.split(',')
@@ -23,7 +22,7 @@ def bagOfWords():
 
 def bagOfCurse():
 
-    curseFile = fileManager(CURSE_PATH, 'r')
+    curseFile = fileManager(CURSE_RAW, 'r')
 
     return filter(
         None, [word.partition(':')[0].strip().strip()
@@ -59,4 +58,5 @@ def dumpJSON():
 
 
 if __name__ == '__main__':
+
     dumpJSON()
