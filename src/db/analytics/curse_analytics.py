@@ -1,7 +1,8 @@
 from pandas import DataFrame
 
+from context import settings
 from settings.filemgmt import fileManager, loadJSON
-from settings.paths import CHARTED_TIDS, CURSES, MXM_PATH
+from settings.paths import CHARTED_TIDS, CURSES, MXM
 
 
 def loadSet(fileName):
@@ -23,7 +24,7 @@ def loadSet(fileName):
 
 def readSet():
 
-    dataset = loadSet(MXM_PATH)
+    dataset = loadSet(MXM)
 
     curses = loadJSON(CURSES)
 
@@ -53,11 +54,10 @@ def exportSet():
 
     df = DataFrame(readSet()[0])
     cursesVals = readSet()[1]
-    filteredCols = ['track_id'] + \
-        [cols for cols in cursesVals if cols in list(df)]
+    filteredCols = [cols for cols in cursesVals if cols in list(df)]
 
     df[filteredCols] = df[filteredCols].fillna(0)
-    df[filteredCols].to_csv('test1.csv')
+    df[filteredCols].to_csv('test.csv')
 
 
 if __name__ == '__main__':

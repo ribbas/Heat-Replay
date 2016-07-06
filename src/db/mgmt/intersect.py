@@ -1,7 +1,7 @@
 from context import settings
 from settings.filemgmt import fileManager
-from settings.paths import CHARTED, CHARTED_FAIL, CHARTED_MXM,
-CHARTED_TIDS, FILTERED_MXM_RAW, sep
+from settings.paths import CHARTED, CHARTED_FAIL, CHARTED_MXM, \
+    CHARTED_TIDS, FILTERED_MXM_RAW, sep
 
 
 def loadSet(fileName):
@@ -79,4 +79,4 @@ def choosePhase(phase):
 
 if __name__ == '__main__':
 
-    choosePhase(2)
+    choosePhase(1)

@@ -14,8 +14,6 @@ titleTagRe = compile(titleTag)
 falseTag = r'<td>\d+</td>'
 falseTagRe = compile(falseTag)
 
-__sep = ''
-
 
 def iterateYears(begin, end):
 
@@ -31,7 +29,7 @@ def iterateYears(begin, end):
     return scrapedHTML
 
 
-def soupify(html, charted):
+def soupify(html):
 
     compileTitleRe()
 
@@ -54,26 +52,12 @@ def soupify(html, charted):
                     if falseTagRe.findall(mixedSoup[0].encode('utf-8')) \
                     else titleTagRe.findall(mixedSoup[1].encode('utf-8'))
 
-                if charted == 1:
-
-                    __sep = sep
-                    songs.append(
-                        __sep.join(
-                            regexify(song) for song in
-                            [artists[0]] + [titles[0]]
-                        )
+                songs.append(
+                    sep.join(
+                        regexify(song) for song in
+                        [artists[0]] + [titles[0]]
                     )
-
-                elif charted == 2:
-
-                    __sep = '-'
-                    songs.append(
-                        '2060/' +
-                        '-lyrics-'.join(
-                            regexify(song) for song in
-                            [titles[0]] + [artists[0]]
-                        ).replace(' ', __sep).partition('-featuring')[0]
-                    )
+                )
 
             except IndexError:
                 continue
@@ -92,7 +76,7 @@ if __name__ == '__main__':
     charted = []
 
     for chart in charts:
-        charted.extend(song for song in soupify(chart, 1) if __sep in song)
+        charted.extend(song for song in soupify(chart) if sep in song)
 
     charted = '\n'.join(sorted(set(charted)))
 
