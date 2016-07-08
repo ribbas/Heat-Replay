@@ -1,8 +1,11 @@
-from os.path import abspath
+from os.path import abspath, exists
 
 # ----------------- Global directories ----------------- #
 
 DATA_DIR = abspath('../../data/')  # main dir of all datasets
+
+if not exists(DATA_DIR):
+    DATA_DIR = abspath('../../../data/')  # main dir of all datasets
 
 FILE = '{file}.txt'  # file formats
 
@@ -13,14 +16,17 @@ TRANS_DIR = \
 FINAL_DIR = \
     DATA_DIR + '/final/'  # main dir of all final datasets
 
+MSD_DIR = \
+    ARCHIVE_DIR + 'MSD/'  # dir for all MSD datasets
+
 MXM_DIR = \
     ARCHIVE_DIR + 'mxm/' + FILE  # dir for all mxm datasets
 
-URL_DIR = \
-    TRANS_DIR + 'urls/' + FILE  # dir for all urls for scraping lyrics
-
 LYRICS_DIR = \
     TRANS_DIR + 'lyrics/'  # dir for all scraped lyrics
+
+URL_DIR = \
+    LYRICS_DIR + 'urls/' + FILE  # dir for all urls for scraping lyrics
 
 RANGE1 = LYRICS_DIR + '1961-2010/' + \
     FILE  # dir for all scraped lyrics from 1961-2010
@@ -45,12 +51,20 @@ MXM_TRAIN = MXM_DIR.format(file='mxm_dataset_train')  # train mxm
 
 MXM = MXM_DIR.format(file='mxm')  # cleaned mxm file
 
+MXM_ALL = MXM_DIR.format(file='mxm_')  # cleaned mxm file with lyrics
+
 CURSE_RAW = ARCHIVE.format(
     file='google_twunter')  # raw list of curse words by Google
 
 CHARTED = ARCHIVE.format(file='charted')  # songs that charted
 
 CHARTED2 = ARCHIVE.format(file='charted2')  # songs that charted
+
+MSD_RAW = ARCHIVE.format(file='MSD_RAW')  # all songs in MSD
+
+MSD_ = ARCHIVE.format(file='MSD_')  # all songs in MSD
+
+MSD_FILES = ARCHIVE.format(file='MSD_FILES')  # all files in MSD
 
 # --------- Transitional datasets --------- #
 
@@ -83,6 +97,9 @@ BOW = FINAL.format(file='bow')  # bag of words version of the lyrics
 
 CHARTED_TIDS = FINAL.format(
     file='charted_tid')  # intersection of charted and mxm
+
+MSD_MXM = FINAL.format(
+    file='MSD_mxm')  # intersection of charted and mxm
 
 CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
 

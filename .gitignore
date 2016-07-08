@@ -1,5 +1,7 @@
 # Directories and files to not include in repository for irrelevance or magnitude
 .venv/
 *.pyc
+
+MSD/
 mxm/
 .~lock*

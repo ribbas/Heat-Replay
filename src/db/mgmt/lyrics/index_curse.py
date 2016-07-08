@@ -1,24 +1,9 @@
+from collections import OrderedDict
 from json import dump
 
 from context import settings
 from settings.filemgmt import fileManager
-from settings.paths import BOW, CURSE_RAW, CURSES, MXM_PATH
-
-
-def bagOfWords():
-
-    with open(MXM_PATH) as lyricsFile:
-
-        # to avoid the entire file from being read into memory
-        for lineNum, line in enumerate(lyricsFile):
-
-            # index 17 is the bag of words
-            if lineNum == 17:
-                rawBagOfWords = line[1:]
-                fileManager(BOW, 'w', rawBagOfWords)
-                break
-
-    return rawBagOfWords.split(',')
+from settings.paths import BOW, CURSE_RAW, CURSES
 
 
 def bagOfCurse():
@@ -35,15 +20,16 @@ def bagOfCurse():
 def intersectLists():
 
     curses = set(bagOfCurse())
-    words = set(bagOfWords())
+    bagOfWords = fileManager(BOW, 'r')
+    words = set(bagOfWords.split(','))
 
-    return list(curses & words)
+    return list(curses & words), bagOfWords.split(',')
 
 
 def mapIndices():
 
-    curses = intersectLists()
-    words = bagOfWords()
+    curses = intersectLists()[0]
+    words = intersectLists()[1]
 
     return {
         curseWord: (words.index(curseWord) + 1) for curseWord in curses
@@ -52,7 +38,7 @@ def mapIndices():
 
 def dumpJSON():
 
-    curseData = mapIndices()
+    curseData = OrderedDict(sorted(mapIndices().items()))
 
     with open(CURSES, 'w') as outputJSON:
         dump(curseData, outputJSON)
