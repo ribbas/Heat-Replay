@@ -3,5 +3,5 @@
 *.pyc
 
 MSD/
-mxm/
+MXM/
 .~lock*
