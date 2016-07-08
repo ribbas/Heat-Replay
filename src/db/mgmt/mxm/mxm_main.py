@@ -1,6 +1,6 @@
 from context import settings
 from settings.filemgmt import fileManager
-from settings.paths import MXM, MXM_ALL, sep
+from settings.paths import MXM, MXM_TID, sep
 
 
 def newFrame():

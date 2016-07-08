@@ -2,6 +2,6 @@
 .venv/
 *.pyc
 
-MSD/
-MXM/
+msd_raw/
+mxm_raw/
 .~lock*

@@ -2,7 +2,7 @@ from os import listdir
 
 from context import settings
 from settings.filemgmt import fileManager
-from settings.paths import MSD_RAW, MSD_DIR, MSD_FILES
+from settings.paths import MSD_TID, MSD_DIR, MSD_FILES
 
 if __name__ == '__main__':
 
@@ -16,4 +16,4 @@ if __name__ == '__main__':
     ]
 
     fileManager(MSD_FILES, 'w', '\n'.join(hdf5Files))
-    fileManager(MSD_RAW, 'w', '\n'.join(hdf5))
+    fileManager(MSD_TID, 'w', '\n'.join(hdf5))

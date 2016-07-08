@@ -9,74 +9,72 @@ if not exists(DATA_DIR):
 
 FILE = '{file}.txt'  # file formats
 
-ARCHIVE_DIR = \
-    DATA_DIR + '/archive/'  # main dir of all archived datasets
-TRANS_DIR = \
-    DATA_DIR + '/transitional/'  # main dir of all transitional datasets
-FINAL_DIR = \
-    DATA_DIR + '/final/'  # main dir of all final datasets
-
-MSD_DIR = \
-    ARCHIVE_DIR + 'MSD/'  # dir for all MSD datasets
-
-MXM_DIR = \
-    ARCHIVE_DIR + 'mxm/' + FILE  # dir for all mxm datasets
-
-LYRICS_DIR = \
-    TRANS_DIR + 'lyrics/'  # dir for all scraped lyrics
-
-URL_DIR = \
-    LYRICS_DIR + 'urls/' + FILE  # dir for all urls for scraping lyrics
-
-RANGE1 = LYRICS_DIR + '1961-2010/' + \
-    FILE  # dir for all scraped lyrics from 1961-2010
-
-RANGE2 = LYRICS_DIR + '2011-2015/' + \
-    FILE  # dir for all scraped lyrics from 2011-2015
+ARCHIVE_DIR = DATA_DIR + '/archive/'  # archived datasets
+FINAL_DIR = DATA_DIR + '/final/'  # final datasets
+TRANS_DIR = DATA_DIR + '/transitional/'  # transitional datasets
 
 # ----------------- Global file paths ----------------- #
 
-ARCHIVE = ARCHIVE_DIR + FILE  # main dir of all archived datasets
-TRANS = TRANS_DIR + FILE  # main dir of all transitional datasets
-FINAL = FINAL_DIR + FILE  # main dir of all final datasets
+# ARCHIVE = ARCHIVE_DIR + FILE  # archived datasets
+# TRANS = TRANS_DIR + FILE  # transitional datasets
+# FINAL = FINAL_DIR + FILE  # final datasets
+
+
+# --------- Archived directories --------- #
+
+CHARTED_DIR = ARCHIVE_DIR + 'charted/' + FILE  # charted datasets
+CURSES_DIR = ARCHIVE_DIR + 'curses/' + FILE  # Google's list of curse words
+MSD_DIR = ARCHIVE_DIR + 'msd/'  # MSD datasets
+MSD_RAW_DIR = MSD_DIR + 'msd_raw/' + FILE  # raw MSD datasets
+MXM_DIR = ARCHIVE_DIR + 'mxm/'  # mxm datasets
+MXM_RAW_DIR = MXM_DIR + 'mxm_raw/' + FILE  # raw mxm datasets
+
 
 # --------- Archived datasets --------- #
 
-MXM_INDEX = MXM_DIR.format(
+CHARTED_RAW = CHARTED_DIR.format(
+    file='charted_raw')  # songs that charted from 1961-2010
+
+CHARTED_RAW2 = CHARTED_DIR.format(
+    file='charted_raw2')  # songs that charted from 2011-2015
+
+CURSE_RAW = CURSES_DIR.format(
+    file='google_twunter')  # Google's list of curse words
+
+MSD_TID = (MSD_DIR + FILE).format(file='MSD_TID')  # tracks IDs from MSD
+
+MSD_TID_YEAR = (MSD_DIR + FILE).format(
+    file='MSD_TID_YEAR')  # tracks IDs and years from MSD
+
+MSD_FILES = (MSD_DIR + FILE).format(file='MSD_FILES')  # all file paths in MSD
+
+MXM_INDEX = MXM_RAW_DIR.format(
     file='mxm_779k_matches')  # index of all songs in mxm
 
-MXM_TEST = MXM_DIR.format(file='mxm_dataset_test')  # test mxm
+MXM_TEST = MXM_RAW_DIR.format(file='mxm_dataset_test')  # test mxm
 
-MXM_TRAIN = MXM_DIR.format(file='mxm_dataset_train')  # train mxm
+MXM_TRAIN = MXM_RAW_DIR.format(file='mxm_dataset_train')  # train mxm
 
-MXM = MXM_DIR.format(file='mxm')  # cleaned mxm file
+MXM = MXM_RAW_DIR.format(file='mxm')  # combined train and test set
 
-MXM_ALL = MXM_DIR.format(file='mxm_')  # cleaned mxm file with lyrics
+MXM_TID = (MXM_DIR + FILE).format(file='mxm_tid')  # track IDs from MXM
 
-CURSE_RAW = ARCHIVE.format(
-    file='google_twunter')  # raw list of curse words by Google
 
-CHARTED = ARCHIVE.format(file='charted')  # songs that charted
+# --------- Transitional directories --------- #
 
-CHARTED2 = ARCHIVE.format(file='charted2')  # songs that charted
-
-MSD_RAW = ARCHIVE.format(file='MSD_RAW')  # all songs in MSD
-
-MSD_ = ARCHIVE.format(file='MSD_')  # all songs in MSD
-
-MSD_FILES = ARCHIVE.format(file='MSD_FILES')  # all files in MSD
+T_CHARTED_DIR = TRANS_DIR + 'charted/'  # charted datasets
+T_LYRICS_DIR = TRANS_DIR + 'lyrics/'  # scraped lyrics
+T_MXM_DIR = TRANS_DIR + 'mxm/'  # scraped lyrics
+URL_DIR = T_LYRICS_DIR + 'urls/' + FILE  # urls for scraping lyrics
+RANGE1 = T_LYRICS_DIR + '1961-2010/' + FILE  # scraped lyrics from 1961-2010
+RANGE2 = T_LYRICS_DIR + '2011-2015/' + FILE  # scraped lyrics from 2011-2015
 
 # --------- Transitional datasets --------- #
 
-FILTERED_MXM = TRANS.format(file='mxm_filtered')  # curtailed mxm index
-
-FILTERED_MXM_RAW = TRANS.format(
-    file='mxm_filtered_raw')  # curtailed mxm index with track IDs
-
-CHARTED_MXM = TRANS.format(
+CHARTED_MXM = T_CHARTED_DIR.format(
     file='charted_mxm')  # intersection of charted and mxm
 
-CHARTED_FAIL = TRANS.format(
+CHARTED_FAIL = T_CHARTED_DIR.format(
     file='charted_failed')  # difference of charted and mxm
 
 URLS_FAILED = URL_DIR.format(
@@ -85,21 +83,23 @@ URLS_FAILED = URL_DIR.format(
 URLS_EXCESS = URL_DIR.format(
     file='urls_excess')  # urls for charted songs from 2011 - 2015
 
-QUEUE = URL_DIR.format(
-    file='queue')  # urls for charted songs from 2011 - 2015
+QUEUE = URL_DIR.format(file='queue')  # urls for range1 charted songs
 
-FAIL = URL_DIR.format(
-    file='failed')  # urls for charted songs from 2011 - 2015
+FAIL = URL_DIR.format(file='failed')  # urls for range2 charted songs
+
+FILTERED_MXM = T_MXM_DIR.format(file='mxm_filtered')  # titles from mxm
+
+FILTERED_MXM_RAW = T_MXM_DIR.format(
+    file='mxm_filtered_raw')  # titles and track IDs from mxm
 
 # --------- Final datasets --------- #
 
-BOW = FINAL.format(file='bow')  # bag of words version of the lyrics
+BOW = FINAL_DIR.format(file='bow')  # bag of words version of the lyrics
 
-CHARTED_TIDS = FINAL.format(
-    file='charted_tid')  # intersection of charted and mxm
+CHARTED_TIDS = FINAL_DIR.format(
+    file='charted_tid')  # intersection of charted and mxm track IDs
 
-MSD_MXM = FINAL.format(
-    file='MSD_mxm')  # intersection of charted and mxm
+MSD_MXM = FINAL_DIR.format(file='MSD_mxm')  # intersection of charted and mxm
 
 CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
 
