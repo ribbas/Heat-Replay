@@ -19,7 +19,8 @@ def loadSet(fileName):
                 setName.append(line)
 
     dif = [line.replace('\n', '') for line in setName]
-    print len(list(set(charted.split('\n')) - set(dif)))
+    dif = '\n'.join(list(set(charted.split('\n')) - set(dif)))
+    fileManager('dif.txt', 'w', dif)
     return setName
 
 
@@ -36,10 +37,12 @@ def readSet():
     splitLyrics = [row.split(',') for row in dataset]
 
     mappedLyrics = {}
+    newSet = []
     df = []
 
     for rows in splitLyrics:
 
+        newSet.append(','.join(rows))
         for cols in rows[2:maxRow]:
             mappedLyrics['track_id'] = rows[0]
             mappedLyrics[int(cols.partition(':')[0])] = \
@@ -48,6 +51,7 @@ def readSet():
         df.append(mappedLyrics)
         mappedLyrics = {}
 
+    fileManager('more1.txt', 'w', ''.join(newSet))
     return df, cursesVals
 
 
