@@ -68,8 +68,6 @@ T_MXM_DIR = TRANS_DIR + 'mxm/'  # scraped lyrics
 URL_DIR = T_LYRICS_DIR + 'urls/' + FILE  # urls for scraping lyrics
 RANGE1 = T_LYRICS_DIR + '1961-2010/'  # scraped lyrics from 1961-2010
 RANGE2 = T_LYRICS_DIR + '2011-2015/'  # scraped lyrics from 2011-2015
-BOW_RANGE1 = T_LYRICS_DIR + 'bow_range1/' + \
-    FILE  # bag of words lyrics of range1
 
 # --------- Transitional datasets --------- #
 

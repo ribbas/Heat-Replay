@@ -1,33 +1,44 @@
-from os import listdir
-
-from pandas import DataFrame as df
+from os import listdir, remove
 
 from context import *
 from settings.filemgmt import fileManager
-from settings.paths import sep
-from settings.paths import RANGE1, BOW_RANGE1, BOW
+from settings.paths import RANGE1, BOW, sep
 from lyrics_to_bow import lyrics_to_bow
 
 
 def readLyrics(dir):
 
-    mxmBow = fileManager(BOW, 'r')
-    mxmBowSplit = mxmBow.split(',')
+    mxmBow = fileManager(BOW, 'r').split(',')
 
-    files = listdir(dir)[:2]
+    files = sorted(listdir(dir))
 
     newSet = []
-    songLyrics = {}
+    songLyrics = []
 
     for lyrics in files:
         bow = lyrics_to_bow(fileManager(RANGE1 + lyrics, 'r'))
-        for word, freq in bow.iteritems():
-            if word in mxmBow:
-                songLyrics[mxmBowSplit.index(word)] = freq
-        newSet.append(songLyrics)
-        songLyrics = {}
+        try:
+            for word, freq in bow.iteritems():
+                try:
+                    songLyrics.append(
+                        str(mxmBow.index(word) + 1) + ':' + str(freq)
+                    )
 
-    print df(newSet)
+                except ValueError:
+                    continue
+            newSet.append(
+                [lyrics[:-4].replace('-lyrics-', sep)] +
+                sorted(
+                    songLyrics, key=lambda s: int(s.partition(':')[0])
+                )
+            )
+            songLyrics = []
+
+        except AttributeError:
+            remove(RANGE1 + lyrics)
+
+    newSet = '\n'.join(sorted([','.join(line) for line in newSet]))
+    fileManager('more.txt', 'w', newSet)
 
 if __name__ == '__main__':
 
