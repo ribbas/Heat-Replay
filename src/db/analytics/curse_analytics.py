@@ -1,6 +1,6 @@
 from pandas import DataFrame
 
-from context import settings
+from context import *
 from settings.filemgmt import fileManager, loadJSON
 from settings.paths import CHARTED_TIDS, CURSES, MXM
 
@@ -13,12 +13,13 @@ def loadSet(fileName):
     with open(fileName) as lyricsFile:
 
         # to avoid the entire file from being read into memory
-        for lineNum, line in enumerate(lyricsFile):
+        for line in lyricsFile:
 
-            if lineNum > 18:
-                if line.split(',')[0] in charted:
-                    setName.append(line)
+            if line.split(',')[0] in charted:
+                setName.append(line)
 
+    dif = [line.replace('\n', '') for line in setName]
+    print len(list(set(charted.split('\n')) - set(dif)))
     return setName
 
 

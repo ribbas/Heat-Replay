@@ -17,7 +17,7 @@ TRANS_DIR = DATA_DIR + '/transitional/'  # transitional datasets
 
 # ARCHIVE = ARCHIVE_DIR + FILE  # archived datasets
 # TRANS = TRANS_DIR + FILE  # transitional datasets
-# FINAL = FINAL_DIR + FILE  # final datasets
+FINAL = FINAL_DIR + FILE  # final datasets
 
 
 # --------- Archived directories --------- #
@@ -66,8 +66,10 @@ T_CHARTED_DIR = TRANS_DIR + 'charted/'  # charted datasets
 T_LYRICS_DIR = TRANS_DIR + 'lyrics/'  # scraped lyrics
 T_MXM_DIR = TRANS_DIR + 'mxm/'  # scraped lyrics
 URL_DIR = T_LYRICS_DIR + 'urls/' + FILE  # urls for scraping lyrics
-RANGE1 = T_LYRICS_DIR + '1961-2010/' + FILE  # scraped lyrics from 1961-2010
-RANGE2 = T_LYRICS_DIR + '2011-2015/' + FILE  # scraped lyrics from 2011-2015
+RANGE1 = T_LYRICS_DIR + '1961-2010/'  # scraped lyrics from 1961-2010
+RANGE2 = T_LYRICS_DIR + '2011-2015/'  # scraped lyrics from 2011-2015
+BOW_RANGE1 = T_LYRICS_DIR + 'bow_range1/' + \
+    FILE  # bag of words lyrics of range1
 
 # --------- Transitional datasets --------- #
 
@@ -94,12 +96,12 @@ FILTERED_MXM_RAW = T_MXM_DIR.format(
 
 # --------- Final datasets --------- #
 
-BOW = FINAL_DIR.format(file='bow')  # bag of words version of the lyrics
+BOW = FINAL.format(file='bow')  # bag of words version of the lyrics
 
-CHARTED_TIDS = FINAL_DIR.format(
+CHARTED_TIDS = FINAL.format(
     file='charted_tid')  # intersection of charted and mxm track IDs
 
-MSD_MXM = FINAL_DIR.format(file='MSD_mxm')  # intersection of charted and mxm
+MSD_MXM = FINAL.format(file='MSD_mxm')  # intersection of charted and mxm
 
 CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
 
