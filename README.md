@@ -64,30 +64,24 @@ src
 │   ├── analytics
 │   │   ├── context.py
 │   │   ├── curse_analytics.py
-│   │   ├── __init__.py
 │   │   └── test.csv
-│   ├── __init__.py
 │   └── mgmt
 │       ├── charted
 │       │   ├── charted.py
-│       │   ├── context.py
-│       │   └── __init__.py
+│       │   └── context.py
 │       ├── DataWaves
 │       │   ├── context.py
-│       │   ├── __init__.py
 │       │   ├── lyrics.py
 │       │   └── scrapeLyrics.py
 │       ├── msd
 │       │   ├── context.py
 │       │   ├── display_song.py
 │       │   ├── hdf5_getters.py
-│       │   ├── __init__.py
 │       │   ├── list_msd_.py
 │       │   ├── map_msd_.py
 │       │   └── msd_mxm.py
 │       └── mxm
 │           ├── context.py
-│           ├── __init__.py
 │           ├── intersect.py
 │           ├── more0.py
 │           ├── mxm_combine.py
@@ -95,9 +89,8 @@ src
 │           └── mxm_main.py
 └── settings
     ├── filemgmt.py
-    ├── __init__.py
     ├── paths.py
     └── regexify.py
 
-19 directories, 52 files
+19 directories, 45 files
 ```
