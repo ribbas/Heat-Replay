@@ -107,6 +107,8 @@ CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
 
 FINAL_MXM = FINAL.format(file='final0')
 
+CHARTED = FINAL.format(file='charted')
+
 UNCHARTED = FINAL.format(file='uncharted')
 
 # ----------------- Global variables ----------------- #
