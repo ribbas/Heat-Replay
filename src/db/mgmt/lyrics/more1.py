@@ -1,4 +1,4 @@
-from os import listdir, remove
+from os import listdir
 
 from context import *
 from settings.filemgmt import fileManager
@@ -29,7 +29,9 @@ def readLyrics(dir):
 
             newSet.append(
                 [
-                    sep.join(lyrics[:-4].split('-lyrics-')[::-1])
+                    sep.join(
+                        lyrics[:-4].split('-lyrics-')[::-1]
+                    ).replace('-', '')
                 ] +
                 sorted(
                     songLyrics, key=lambda s: int(s.partition(':')[0])
@@ -38,6 +40,7 @@ def readLyrics(dir):
             songLyrics = []
 
         except AttributeError:
+            print "Failed to index", lyrics
             continue
 
     return '\n'.join(sorted([','.join(line) for line in newSet]))

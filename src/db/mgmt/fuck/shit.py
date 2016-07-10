@@ -17,12 +17,11 @@ def loadSet(fileName):
     return setName
 
 
-if __name__ == '__main__':
+def idk():
 
     compileTitleRe()
 
     charted_tids = loadSet(CHARTED_TIDS).split('\n')
-    charted_title_year = loadSet(CHARTED_RAW).split('\n')
 
     mxm = [row.split(sep) for row in loadSet(FILTERED_MXM_RAW).split('\n')]
 
@@ -32,7 +31,31 @@ if __name__ == '__main__':
         if i[0] in charted_tids:
             fuck.append(sep.join(i))
 
-    fileManager('charted_tid_year', 'w', '\n'.join(fuck))
-    #     if i in
-    #     if i in mxm:
-    #         print mxm.index(i)
+    fileManager('charted_tid_title.txt', 'w', '\n'.join(fuck))
+
+
+def normalize(mode, row):
+
+    if not mode:
+        return sep.join(row.split(sep)[1:]).replace(' ', '')
+    else:
+        return sep.join(row.split(sep)[:-1]).replace('-', '')
+
+if __name__ == '__main__':
+
+    charted_title_year = loadSet(CHARTED_RAW).split('\n')
+    charted_title_tid = loadSet('charted_tid_title.txt').split('\n')
+
+    yo = [normalize(1, i) for i in charted_title_year]
+
+    pls = []
+
+    for i in charted_title_tid:
+        if normalize(0, i) in yo:
+            row = \
+                normalize(0, i) + sep + \
+                i.partition(sep)[0] + sep + \
+                charted_title_year[yo.index(normalize(0, i))].split(sep)[-1]
+            pls.append(row)
+
+    fileManager('charted_tid_year_title.txt', 'w', '\n'.join(pls))
