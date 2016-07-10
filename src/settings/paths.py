@@ -25,7 +25,7 @@ FINAL = FINAL_DIR + FILE  # final datasets
 CHARTED_DIR = ARCHIVE_DIR + 'charted/' + FILE  # charted datasets
 CURSES_DIR = ARCHIVE_DIR + 'curses/' + FILE  # Google's list of curse words
 MSD_DIR = ARCHIVE_DIR + 'msd/'  # MSD datasets
-MSD_RAW_DIR = MSD_DIR + 'msd_raw/' + FILE  # raw MSD datasets
+MSD_RAW_DIR = MSD_DIR + 'msd_raw/'  # raw MSD datasets
 MXM_DIR = ARCHIVE_DIR + 'mxm/'  # mxm datasets
 MXM_RAW_DIR = MXM_DIR + 'mxm_raw/' + FILE  # raw mxm datasets
 
@@ -100,6 +100,10 @@ CHARTED_TIDS = FINAL.format(
     file='charted_tid')  # intersection of charted and mxm track IDs
 
 MSD_MXM = FINAL.format(file='MSD_mxm')  # intersection of charted and mxm
+
+MORE0 = FINAL.format(file='more0')  # charted songs with lyrics
+
+MORE1 = FINAL.format(file='more1')  # scraped charted songs with lyrics
 
 CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
 

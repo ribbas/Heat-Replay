@@ -1,4 +1,4 @@
-from context import settings
+from context import *
 from settings.filemgmt import fileManager
 from settings.paths import MXM_TEST, MXM_TRAIN, MXM
 
@@ -7,8 +7,6 @@ def loadSet(fileName):
 
     setName = []
     startLine = 17
-    # testSet = fileManager(fileName, 'r')
-    # trainSet = fileManager(MXM_TRAIN, 'r')
 
     with open(fileName) as lyricsFile:
 

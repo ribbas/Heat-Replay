@@ -1,13 +1,13 @@
 from os import listdir
 
-from context import settings
+from context import *
 from settings.filemgmt import fileManager
-from settings.paths import MSD_TID, MSD_DIR, MSD_FILES
+from settings.paths import MSD_TID, MSD_RAW_DIR, MSD_FILES
 
 if __name__ == '__main__':
 
     hdf5Files = [
-        MSD_DIR + h5 for h5 in listdir(MSD_DIR)
+        MSD_RAW_DIR + h5 for h5 in listdir(MSD_RAW_DIR)
         if h5.partition('.')[-1] == 'h5' and h5.startswith('T')
     ]
 

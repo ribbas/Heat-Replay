@@ -2,7 +2,7 @@ from os import listdir, remove
 
 from context import *
 from settings.filemgmt import fileManager
-from settings.paths import RANGE1, BOW, sep
+from settings.paths import BOW, MORE1, RANGE1, sep
 from lyrics_to_bow import lyrics_to_bow
 
 
@@ -37,9 +37,9 @@ def readLyrics(dir):
         except AttributeError:
             remove(RANGE1 + lyrics)
 
-    newSet = '\n'.join(sorted([','.join(line) for line in newSet]))
-    fileManager('more.txt', 'w', newSet)
+    return '\n'.join(sorted([','.join(line) for line in newSet]))
 
 if __name__ == '__main__':
 
-    readLyrics(RANGE1)
+    newSet = readLyrics(RANGE1)
+    fileManager(MORE1, 'w', newSet)
