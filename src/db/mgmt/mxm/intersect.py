@@ -1,6 +1,6 @@
-from context import settings
+from context import *
 from settings.filemgmt import fileManager
-from settings.paths import CHARTED, CHARTED_FAIL, CHARTED_MXM, \
+from settings.paths import CHARTED_RAW, CHARTED_FAIL, CHARTED_MXM, \
     CHARTED_TIDS, FILTERED_MXM_RAW, sep
 
 
@@ -19,10 +19,11 @@ def loadSet(fileName):
 
 def phaseOne():
 
-    chartedSet = loadSet(CHARTED)
+    chartedSet = loadSet(CHARTED_RAW)
 
     filteredMXMSet = [
-        sep.join(col.split(sep)[1:3]) for col in loadSet(FILTERED_MXM_RAW)
+        sep.join([yo.replace(' ', '-') for yo in col.split(sep)[1:3]])
+        for col in loadSet(FILTERED_MXM_RAW)
     ]
 
     return filteredMXMSet, chartedSet
@@ -58,9 +59,13 @@ def choosePhase(phase):
         filteredMXMSet = phaseTwo()[0]
         chartedSet = phaseTwo()[1]
 
-    disjoints = sorted(list(chartedSet - set(filteredMXMSet)))
+    chartedSet = [sep.join(col.split(sep)[:-1]) for col in chartedSet]
 
-    intersections = sorted(list(chartedSet & set(filteredMXMSet)))
+    print filteredMXMSet
+
+    disjoints = sorted(list(set(chartedSet) - set(filteredMXMSet)))
+
+    intersections = sorted(list(set(chartedSet) & set(filteredMXMSet)))
 
     for title in range(len(intersections)):
         if intersections[title] in filteredMXMSet:

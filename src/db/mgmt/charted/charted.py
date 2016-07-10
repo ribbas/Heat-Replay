@@ -1,9 +1,9 @@
 from bs4 import BeautifulSoup
 from requests import get
 
-from context import settings
+from context import *
 from settings.filemgmt import fileManager
-from settings.paths import CHARTED2, sep
+from settings.paths import CHARTED_RAW, sep
 from settings.regexify import *
 
 WIKI_URL = 'https://en.wikipedia.org/'
@@ -36,6 +36,11 @@ def soupify(html):
     soup = BeautifulSoup(html, 'html.parser')
 
     songs = []
+    year = ''
+
+    for attr in soup.find_all('title')[0].string.split():
+        if attr.isdigit() and len(attr) == 4:
+            year = attr
 
     for entrySoup in soup.find_all('table', {'class': 'wikitable sortable'}):
         for songSoup in entrySoup.find_all('tr'):
@@ -54,9 +59,11 @@ def soupify(html):
 
                 songs.append(
                     sep.join(
-                        regexify(song) for song in
-                        [artists[0]] + [titles[0]]
-                    )
+                        [
+                            regexify(song) for song in
+                            [artists[0]] + [titles[0]]
+                        ] + [year]
+                    ).replace(' ', '-').partition('-featuring')[0]
                 )
 
             except IndexError:
@@ -71,7 +78,7 @@ def soupify(html):
 
 if __name__ == '__main__':
 
-    charts = iterateYears(2011, 2015)
+    charts = iterateYears(1961, 2010)
 
     charted = []
 
@@ -80,4 +87,4 @@ if __name__ == '__main__':
 
     charted = '\n'.join(sorted(set(charted)))
 
-    fileManager(CHARTED2, 'w', charted)
+    fileManager(CHARTED_RAW, 'w', charted)

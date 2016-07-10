@@ -26,8 +26,11 @@ def readLyrics(dir):
 
                 except ValueError:
                     continue
+
             newSet.append(
-                [lyrics[:-4].replace('-lyrics-', sep)] +
+                [
+                    sep.join(lyrics[:-4].split('-lyrics-')[::-1])
+                ] +
                 sorted(
                     songLyrics, key=lambda s: int(s.partition(':')[0])
                 )
@@ -35,7 +38,7 @@ def readLyrics(dir):
             songLyrics = []
 
         except AttributeError:
-            remove(RANGE1 + lyrics)
+            continue
 
     return '\n'.join(sorted([','.join(line) for line in newSet]))
 

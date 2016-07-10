@@ -1,4 +1,4 @@
-from context import settings
+from context import *
 from settings.filemgmt import fileManager
 from settings.paths import MXM, MXM_TID, sep
 

@@ -1,6 +1,6 @@
-from context import settings
+from context import *
 from settings.filemgmt import fileManager
-from settings.paths import MXM_ALL, MSD_, MSD_MXM, sep
+from settings.paths import MXM, MSD_TID_YEAR, MSD_MXM, UNCHARTED, sep
 
 
 def loadSet(fileName):
@@ -18,7 +18,12 @@ def loadSet(fileName):
 
 if __name__ == '__main__':
 
-    mxm = set([line.partition('\n')[0] for line in loadSet(MXM_ALL)])
-    msd = set([line.split(sep)[0] for line in loadSet(MSD_)])
+    mxm = set([line.partition(',')[0] for line in loadSet(MXM)])
+    msd = set([line.split(sep)[0] for line in loadSet(MSD_TID_YEAR)])
+    intersects = sorted(list(mxm & msd))
 
-    fileManager(MSD_MXM, 'w', '\n'.join(sorted(list(mxm & msd))))
+    intersects = [
+        line for line in loadSet(MXM) if line.partition(',')[0] in intersects
+    ]
+
+    fileManager(MSD_MXM, 'w', '\n'.join(intersects))

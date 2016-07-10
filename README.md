@@ -7,7 +7,7 @@ frequency of obscene words, frequency of words pertaining to certain themes, tot
 the year they charted. The dataframe will also include the last column 'charted', a binary variable that corresponds
 to the chart status of the song.
 
-### Drafted structure of features
+## Drafted structure of features
 
 1. Track information
   1.  Year (int)
@@ -24,7 +24,7 @@ to the chart status of the song.
   2.  No (b’0)
 
 
-### Structure of repository:
+## Structure of repository:
 ```
 src
 ├── data

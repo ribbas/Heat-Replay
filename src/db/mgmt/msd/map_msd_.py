@@ -11,10 +11,11 @@ if __name__ == '__main__':
 
     for file in hdf5Files:
         h5 = open_h5_file_read(file)
+        title = str(file.split('/')[-1].partition('.')[0])
         year = get_year(h5)
         if year > 1960:
             msdData.append(
-                str(file.split('/')[-1].partition('.')[0]) +
+                title +
                 sep + str(year)
             )
         h5.close()

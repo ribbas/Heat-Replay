@@ -15,8 +15,6 @@ TRANS_DIR = DATA_DIR + '/transitional/'  # transitional datasets
 
 # ----------------- Global file paths ----------------- #
 
-# ARCHIVE = ARCHIVE_DIR + FILE  # archived datasets
-# TRANS = TRANS_DIR + FILE  # transitional datasets
 FINAL = FINAL_DIR + FILE  # final datasets
 
 
@@ -44,9 +42,9 @@ CURSE_RAW = CURSES_DIR.format(
 MSD_TID = (MSD_DIR + FILE).format(file='MSD_TID')  # tracks IDs from MSD
 
 MSD_TID_YEAR = (MSD_DIR + FILE).format(
-    file='MSD_TID_YEAR')  # tracks IDs and years from MSD
+    file='msd_tid_year')  # tracks IDs and years from MSD
 
-MSD_FILES = (MSD_DIR + FILE).format(file='MSD_FILES')  # all file paths in MSD
+MSD_FILES = (MSD_DIR + FILE).format(file='msd_files')  # all file paths in MSD
 
 MXM_INDEX = MXM_RAW_DIR.format(
     file='mxm_779k_matches')  # index of all songs in mxm
@@ -62,9 +60,9 @@ MXM_TID = (MXM_DIR + FILE).format(file='mxm_tid')  # track IDs from MXM
 
 # --------- Transitional directories --------- #
 
-T_CHARTED_DIR = TRANS_DIR + 'charted/'  # charted datasets
+T_CHARTED_DIR = TRANS_DIR + 'charted/' + FILE  # charted datasets
 T_LYRICS_DIR = TRANS_DIR + 'lyrics/'  # scraped lyrics
-T_MXM_DIR = TRANS_DIR + 'mxm/'  # scraped lyrics
+T_MXM_DIR = TRANS_DIR + 'mxm/' + FILE  # scraped lyrics
 URL_DIR = T_LYRICS_DIR + 'urls/' + FILE  # urls for scraping lyrics
 RANGE1 = T_LYRICS_DIR + '1961-2010/'  # scraped lyrics from 1961-2010
 RANGE2 = T_LYRICS_DIR + '2011-2015/'  # scraped lyrics from 2011-2015
@@ -106,6 +104,10 @@ MORE0 = FINAL.format(file='more0')  # charted songs with lyrics
 MORE1 = FINAL.format(file='more1')  # scraped charted songs with lyrics
 
 CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
+
+FINAL_MXM = FINAL.format(file='final0')
+
+UNCHARTED = FINAL.format(file='uncharted')
 
 # ----------------- Global variables ----------------- #
 
