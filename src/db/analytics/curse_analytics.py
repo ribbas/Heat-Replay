@@ -2,7 +2,7 @@ from pandas import DataFrame
 
 from context import *
 from settings.filemgmt import loadJSON
-from settings.paths import CURSES, MORE0, MORE1
+from settings.paths import CURSES, MORE0, MORE1, CHARTED
 
 
 def loadSet(fileName):
@@ -34,10 +34,10 @@ def exportCurses(analyzedSet, dataset):
         totalCurses = 0
         density = 0
 
-        for cols in rows[1:]:
+        for cols in rows[2:]:
 
             mappedLyrics['track_id'] = rows[0]
-
+            mappedLyrics['year'] = rows[1]
             if int(cols.partition(':')[0]) in analyzedSet:
                 totalCurses += int(cols.partition(':')[-1])
             mappedLyrics['total_curses'] = totalCurses
@@ -63,7 +63,7 @@ def cursesConfig(path):
     cursesDF = exportCurses(analyzedSet, dataset)
 
     filteredCols = [
-        'track_id', 'total_curses',
+        'track_id', 'year', 'total_curses',
         'unique_words', 'density', 'creativity'
     ]
     exportSet(cursesDF, filteredCols, 'test.csv')
@@ -77,4 +77,4 @@ def exportSet(df, filteredCols, path):
 
 if __name__ == '__main__':
 
-    cursesConfig(MORE0)
+    cursesConfig(CHARTED)
