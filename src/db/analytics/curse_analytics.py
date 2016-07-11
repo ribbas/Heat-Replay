@@ -2,7 +2,7 @@ from pandas import DataFrame
 
 from context import *
 from settings.filemgmt import loadJSON
-from settings.paths import CURSES, MORE0, MORE1, CHARTED
+from settings.paths import CURSES, MORE0, MORE1, CHARTED, UNCHARTED
 
 
 def loadSet(fileName):
@@ -24,7 +24,7 @@ def curses(dataset):
     return sorted(cursesVals)
 
 
-def exportCurses(analyzedSet, dataset):
+def exportCurses(analyzedSet, dataset, charted):
 
     mappedLyrics = {}
     df = []
@@ -42,12 +42,14 @@ def exportCurses(analyzedSet, dataset):
                 totalCurses += int(cols.partition(':')[-1])
             mappedLyrics['total_curses'] = totalCurses
 
-            mappedLyrics['unique_words'] = len(rows[1:])
+            mappedLyrics['unique_words'] = len(rows[2:])
 
             density += int(cols.partition(':')[-1])
             mappedLyrics['density'] = density
 
-            mappedLyrics['creativity'] = float(len(rows[1:]) / float(density))
+            mappedLyrics['creativity'] = float(len(rows[2:]) / float(density))
+
+            mappedLyrics['charted'] = charted
 
         df.append(mappedLyrics)
         mappedLyrics = {}
@@ -60,21 +62,22 @@ def cursesConfig(path):
     dataset = loadSet(path)
 
     analyzedSet = curses(dataset)
-    cursesDF = exportCurses(analyzedSet, dataset)
+    cursesDF = exportCurses(analyzedSet, dataset, 0)
 
     filteredCols = [
         'track_id', 'year', 'total_curses',
-        'unique_words', 'density', 'creativity'
+        'unique_words', 'density', 'creativity', 'charted'
     ]
-    exportSet(cursesDF, filteredCols, 'test.csv')
+
+    exportSet(cursesDF, filteredCols, 'uncharted.csv')
 
 
 def exportSet(df, filteredCols, path):
 
-    df[filteredCols[1:-1]] = df[filteredCols[1:-1]].fillna(0).astype(int)
+    df[filteredCols[2:-2]] = df[filteredCols[2:-2]].fillna(0).astype(int)
     df[filteredCols].to_csv(path)
 
 
 if __name__ == '__main__':
 
-    cursesConfig(CHARTED)
+    cursesConfig(UNCHARTED)
