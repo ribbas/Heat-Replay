@@ -42,6 +42,11 @@ def exportCurses(analyzedSet, dataset, charted):
                 totalCurses += int(cols.partition(':')[-1])
             mappedLyrics['total_curses'] = totalCurses
 
+            if totalCurses:
+                mappedLyrics['curses'] = 1
+            else:
+                mappedLyrics['curses'] = 0
+
             mappedLyrics['unique_words'] = len(rows[2:])
 
             density += int(cols.partition(':')[-1])
@@ -62,14 +67,14 @@ def cursesConfig(path):
     dataset = loadSet(path)
 
     analyzedSet = curses(dataset)
-    cursesDF = exportCurses(analyzedSet, dataset, 0)
+    cursesDF = exportCurses(analyzedSet, dataset, 1)
 
     filteredCols = [
-        'track_id', 'year', 'total_curses',
+        'track_id', 'year', 'total_curses', 'curses',
         'unique_words', 'density', 'creativity', 'charted'
     ]
 
-    exportSet(cursesDF, filteredCols, 'uncharted.csv')
+    exportSet(cursesDF, filteredCols, 'charted.csv')
 
 
 def exportSet(df, filteredCols, path):
@@ -80,4 +85,4 @@ def exportSet(df, filteredCols, path):
 
 if __name__ == '__main__':
 
-    cursesConfig(UNCHARTED)
+    cursesConfig(CHARTED)
