@@ -1,8 +1,10 @@
+#!/usr/bin/env python
+
 from context import *
 
 from settings.filemgmt import fileManager
 from settings.paths import sep
-from settings.paths import CHARTED2, CHARTED_FAIL, URLS_FAILED  # modify
+from settings.paths import CHARTED_FAIL, URLS_FAILED  # modify
 
 
 def splitAttr(fileName):
@@ -11,14 +13,13 @@ def splitAttr(fileName):
 
     songs = []
     url = '{title}-lyrics-{artist}'
-    __sep = '-'
 
     songs = [
         (
             url.format(
                 title=song.split(sep)[1], artist=song.split(sep)[0]
             )
-        ).replace(' ', __sep).partition('-featuring')[0]
+        ).replace(' ', '-').partition('-featuring')[0]
         for song in rawFile.split('\n')
     ]
 

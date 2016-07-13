@@ -1,4 +1,6 @@
-from context import settings
+#!/usr/bin/env python
+
+from context import *
 from settings.filemgmt import fileManager
 from settings.paths import FILTERED_MXM_RAW, MXM_INDEX, sep
 from settings.regexify import compileTitleRe, regexify
@@ -22,15 +24,14 @@ def newFrame(colStart, colEnd, raw=False):
 
     for row in rawNewFrame.split('\n'):
 
+        row = row.split(sep)[colStart:colEnd]
+
         try:
 
             rowSplit = sep.join(
-                [row.split(sep)[0]] +
-                [regexify(col)
-                 for col in row.split(sep)[colStart:colEnd]]
+                [row.split(sep)[0]] + [regexify(col) for col in row]
             ) if raw else sep.join(
-                [regexify(col)
-                 for col in row.split(sep)[colStart:colEnd]]
+                [regexify(col) for col in row]
             )
 
             newFrame.extend([rowSplit])

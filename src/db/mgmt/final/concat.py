@@ -2,7 +2,6 @@ from context import *
 from settings.filemgmt import fileManager
 from settings.paths import CHARTED_RAW, FILTERED_MXM_RAW, CHARTED_TIDS, sep
 from settings.paths import MORE0, MORE1
-from settings.regexify import *
 
 
 def loadSet(fileName):
@@ -18,9 +17,15 @@ def loadSet(fileName):
     return setName
 
 
-def idk():
+def normalize(mode, row):
 
-    compileTitleRe()
+    if not mode:
+        return sep.join(row.split(sep)[1:]).replace(' ', '')
+    else:
+        return sep.join(row.split(sep)[:-1]).replace('-', '')
+
+
+def idk():
 
     charted_tids = loadSet(CHARTED_TIDS).split('\n')
 
@@ -33,14 +38,6 @@ def idk():
             fuck.append(sep.join(i))
 
     fileManager('charted_tid_title.txt', 'w', '\n'.join(fuck))
-
-
-def normalize(mode, row):
-
-    if not mode:
-        return sep.join(row.split(sep)[1:]).replace(' ', '')
-    else:
-        return sep.join(row.split(sep)[:-1]).replace('-', '')
 
 
 def idgaf():

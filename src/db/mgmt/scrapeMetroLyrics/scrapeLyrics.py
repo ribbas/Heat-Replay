@@ -3,9 +3,9 @@
 from random import randrange
 from time import sleep
 
-from context import settings
+from context import *
 from settings.filemgmt import fileManager
-from settings.paths import FAIL, QUEUE, RANGE1, URLS_FAILED
+from settings.paths import FAIL, QUEUE, RANGE1
 from lyrics import Lyrics
 
 
@@ -44,9 +44,7 @@ class ScrapeLyrics:
 
                 if lyrics:
                     fileManager(
-                        RANGE1.format(
-                            file=song.name
-                        ), 'w', song.lyrics
+                        RANGE1.format(file=song.name), 'w', song.lyrics
                     )
                     success.add(line)
 

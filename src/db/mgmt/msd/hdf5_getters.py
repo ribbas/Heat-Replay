@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Thierry Bertin-Mahieux (2010) Columbia University
 tb2332@columbia.edu

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from context import *
 from settings.filemgmt import fileManager
 from settings.paths import MXM, MSD_TID_YEAR, MSD_MXM, UNCHARTED, sep

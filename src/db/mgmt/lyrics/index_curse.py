@@ -1,7 +1,9 @@
+#!/usr/bin/env python
+
 from collections import OrderedDict
 from json import dump
 
-from context import settings
+from context import *
 from settings.filemgmt import fileManager
 from settings.paths import BOW, CURSE_RAW, CURSES
 

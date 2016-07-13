@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from os.path import abspath, exists
 
 # ----------------- Global directories ----------------- #
@@ -16,7 +18,6 @@ TRANS_DIR = DATA_DIR + '/transitional/'  # transitional datasets
 # ----------------- Global file paths ----------------- #
 
 FINAL = FINAL_DIR + FILE  # final datasets
-
 
 # --------- Archived directories --------- #
 
@@ -107,9 +108,13 @@ CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
 
 FINAL_MXM = FINAL.format(file='final0')
 
+# final charted set, mapped with lyrics and year
 CHARTED = FINAL.format(file='charted')
 
+# final uncharted set, mapped with lyrics and year
 UNCHARTED = FINAL.format(file='uncharted')
+
+FINAL_SET = FINAL_DIR + 'final.csv'  # final dataset
 
 # ----------------- Global variables ----------------- #
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from bs4 import BeautifulSoup
 from requests import get
 
@@ -27,6 +29,11 @@ def iterateYears(begin, end):
             scrapedHTML.append(html.text)
 
     return scrapedHTML
+
+
+def miniSoup(miniSoup, index):
+
+    return miniSoup[index].encode('utf-8')
 
 
 def soupify(html):

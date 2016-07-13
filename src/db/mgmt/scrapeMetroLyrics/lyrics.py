@@ -23,7 +23,7 @@ class Lyrics:
         page = get(self._url)
 
         if page.status_code != 404:
-            print 'Page found for', self.name
+            print 'Page found for', self.name, '\n'
             page = fromstring(page.text)
 
             try:

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from os import listdir
 
 from context import *
@@ -14,14 +16,22 @@ def readLyrics(dir):
 
     newSet = []
     songLyrics = []
+    bow = '{word}:{freq}'
 
     for lyrics in files:
         bow = lyrics_to_bow(fileManager(RANGE1 + lyrics, 'r'))
+
         try:
+
             for word, freq in bow.iteritems():
+
                 try:
+
                     songLyrics.append(
-                        str(mxmBow.index(word) + 1) + ':' + str(freq)
+                        bow.format(
+                            word=str(mxmBow.index(word) + 1),
+                            freq=str(freq)
+                        )
                     )
 
                 except ValueError:

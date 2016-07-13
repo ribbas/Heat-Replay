@@ -1,8 +1,19 @@
-from pandas import DataFrame
+#!/usr/bin/env python
+
+"""analytics.py
+"""
+
+from pandas import concat, DataFrame
 
 from context import *
 from settings.filemgmt import loadJSON
-from settings.paths import CURSES, MORE0, MORE1, CHARTED, UNCHARTED
+from settings.paths import CURSES, CHARTED, FINAL_SET, UNCHARTED
+
+
+filteredCols = [
+    'year', 'total_curses', 'curses',
+    'unique_words', 'density', 'creativity', 'charted'
+]
 
 
 def loadSet(fileName):
@@ -16,16 +27,15 @@ def loadSet(fileName):
     return [row.split(',') for row in setName]
 
 
-def curses(dataset):
+def categories(category):
 
-    curses = loadJSON(CURSES)
-    cursesVals = dict(curses).values()
-
-    return sorted(cursesVals)
+    return sorted(dict(loadJSON(category)).values())
 
 
-def exportCurses(analyzedSet, dataset, charted):
+def generateCol(path, analyzedSet):
 
+    dataset = loadSet(path)
+    charted = 1 if path == CHARTED else 0
     mappedLyrics = {}
     df = []
 
@@ -36,10 +46,13 @@ def exportCurses(analyzedSet, dataset, charted):
 
         for cols in rows[2:]:
 
-            mappedLyrics['track_id'] = rows[0]
+            term = int(cols.partition(':')[0])
+            freq = int(cols.partition(':')[-1])
+
             mappedLyrics['year'] = rows[1]
-            if int(cols.partition(':')[0]) in analyzedSet:
-                totalCurses += int(cols.partition(':')[-1])
+
+            if term in analyzedSet:
+                totalCurses += freq
             mappedLyrics['total_curses'] = totalCurses
 
             if totalCurses:
@@ -49,7 +62,7 @@ def exportCurses(analyzedSet, dataset, charted):
 
             mappedLyrics['unique_words'] = len(rows[2:])
 
-            density += int(cols.partition(':')[-1])
+            density += freq
             mappedLyrics['density'] = density
 
             mappedLyrics['creativity'] = float(len(rows[2:]) / float(density))
@@ -62,27 +75,21 @@ def exportCurses(analyzedSet, dataset, charted):
     return DataFrame(df)
 
 
-def cursesConfig(path):
+def dfConfig(path):
 
-    dataset = loadSet(path)
-
-    analyzedSet = curses(dataset)
-    cursesDF = exportCurses(analyzedSet, dataset, 1)
-
-    filteredCols = [
-        'track_id', 'year', 'total_curses', 'curses',
-        'unique_words', 'density', 'creativity', 'charted'
-    ]
-
-    exportSet(cursesDF, filteredCols, 'charted.csv')
-
-
-def exportSet(df, filteredCols, path):
+    curses = categories(CURSES)
+    df = generateCol(path, curses)
 
     df[filteredCols[2:-2]] = df[filteredCols[2:-2]].fillna(0).astype(int)
-    df[filteredCols].to_csv(path)
+    return df[filteredCols]
 
 
 if __name__ == '__main__':
 
-    cursesConfig(CHARTED)
+    charted = dfConfig(CHARTED)
+    uncharted = dfConfig(UNCHARTED)
+
+    df = concat([charted, uncharted])
+    df.sort_values('year', ascending=True, inplace=True)
+    df.dtypes
+    df.to_csv(FINAL_SET, index=False)
