@@ -106,6 +106,8 @@ MORE1 = FINAL.format(file='more1')  # scraped charted songs with lyrics
 
 CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
 
+STOPWORDS = FINAL_DIR + 'stopwords.json'  # indexed stop words
+
 FINAL_MXM = FINAL.format(file='final0')
 
 # final charted set, mapped with lyrics and year
