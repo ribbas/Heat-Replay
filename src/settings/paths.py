@@ -108,6 +108,8 @@ CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
 
 STOPWORDS = FINAL_DIR + 'stopwords.json'  # indexed stop words
 
+SYLLABLES = FINAL_DIR + 'syllables.json'  # indexed syllables
+
 FINAL_MXM = FINAL.format(file='final0')
 
 # final charted set, mapped with lyrics and year
