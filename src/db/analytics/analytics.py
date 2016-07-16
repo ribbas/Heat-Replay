@@ -57,16 +57,16 @@ def readingScore(density, densityRaw, syllables):
 
     avSentLen = 0
 
-    try:
-        avSentLen = 18 * densityRaw / float(densityRaw - density)
-        print avSentLen
+    sentLen = float(densityRaw - density)
 
-    except ZeroDivisionError:
-        avSentLen = 18
+    if 0 < sentLen < 20:
+        avSentLen = densityRaw / float(densityRaw - density)
+    else:
+        avSentLen = densityRaw / 20
 
     avSyllables = syllables / float(densityRaw)
 
-    score = 0.39 * (avSentLen) + 11.8 * (avSyllables) - 15.59
+    score = 0.39 * (avSentLen) + 11.8 * (avSyllables) - 5.59
 
     return score
 
@@ -168,5 +168,4 @@ if __name__ == '__main__':
 
     df = concat([charted, uncharted])
     df.sort_values('year', ascending=True, inplace=True)
-    df.dtypes
     df.to_csv(FINAL_SET, index=False)
