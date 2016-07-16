@@ -3,6 +3,7 @@
 """analytics.py
 """
 
+from nltk import pos_tag
 from pandas import concat, DataFrame
 
 from context import *
@@ -20,6 +21,10 @@ filteredCols = [
 
     'unique_words_raw',
     'density_raw',
+
+    'nouns',
+    'verbs',
+    'adjectives',
 
     'creativity',
 
@@ -155,6 +160,16 @@ def generateCol(path, analyzedFeats):
             float(len(unique_words) / float(sum(density)))
 
         mappedLyrics['syllables'] = totalSyllables
+
+        pos = pos_tag([bow[i - 1] for i in unique_words])
+        verbs = len([i for i in pos if i[-1] == 'VB'])
+        nouns = len([i for i in pos if i[-1] == 'NN'])
+        adj = len([i for i in pos if i[-1] == 'JJ'])
+
+        mappedLyrics['nouns'] = nouns
+        mappedLyrics['verbs'] = verbs
+        mappedLyrics['adjectives'] = adj
+
         mappedLyrics['reading_score'] = \
             readingScore(sum(density), densityRaw, totalSyllables)
         df.append(mappedLyrics)
@@ -182,4 +197,5 @@ if __name__ == '__main__':
 
     df = concat([charted, uncharted])
     df.sort_values('year', ascending=True, inplace=True)
+    # print df[['year', 'most_used_term', 'most_used_freq']].head()
     df.to_csv(FINAL_SET, index=False)
