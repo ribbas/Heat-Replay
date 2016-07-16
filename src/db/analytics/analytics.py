@@ -56,13 +56,16 @@ def categories(category):
 def readingScore(density, densityRaw, syllables):
 
     avSentLen = 0
+    upper = 20
+    lower = 0
 
     sentLen = float(densityRaw - density)
 
-    if 0 < sentLen < 20:
+    if lower < sentLen < upper:
         avSentLen = densityRaw / float(densityRaw - density)
+
     else:
-        avSentLen = densityRaw / 20
+        avSentLen = densityRaw / upper
 
     avSyllables = syllables / float(densityRaw)
 
@@ -131,7 +134,18 @@ def generateCol(path, analyzedFeats):
 
         mappedLyrics['density_raw'] = densityRaw
 
-        mostUsed = unique_words[density.index(max(density))]
+        maxIndex = max(density)
+        indices = [
+            index for index, val in enumerate(density) if val == maxIndex
+        ]
+
+        maxVals = []
+        mostUsed = ''
+
+        for maxes in indices:
+            maxVals.append(unique_words[maxes] - 1)
+
+        mostUsed = min(maxVals) + 1
 
         mappedLyrics['most_used_term'] = bow[mostUsed - 1]
 
