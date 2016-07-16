@@ -26,8 +26,6 @@ filteredCols = [
     'verbs',
     'adjectives',
 
-    'creativity',
-
     'syllables',
 
     'most_used_term',
@@ -156,12 +154,9 @@ def generateCol(path, analyzedFeats):
 
         mappedLyrics['most_used_freq'] = density[unique_words.index(mostUsed)]
 
-        mappedLyrics['creativity'] = \
-            float(len(unique_words) / float(sum(density)))
-
         mappedLyrics['syllables'] = totalSyllables
 
-        pos = pos_tag([bow[i - 1] for i in unique_words])
+        pos = set(pos_tag([bow[i - 1] for i in unique_words]))
         verbs = len([i for i in pos if i[-1] == 'VB'])
         nouns = len([i for i in pos if i[-1] == 'NN'])
         adj = len([i for i in pos if i[-1] == 'JJ'])
