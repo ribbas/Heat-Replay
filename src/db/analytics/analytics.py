@@ -165,6 +165,8 @@ def generateCol(path, analyzedFeats):
         mappedLyrics['verbs'] = verbs
         mappedLyrics['adjectives'] = adj
 
+        print ' '.join([bow[i - 1] for i in unique_words])
+
         mappedLyrics['reading_score'] = \
             readingScore(sum(density), densityRaw, totalSyllables)
         df.append(mappedLyrics)
