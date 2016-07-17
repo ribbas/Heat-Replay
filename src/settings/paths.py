@@ -110,6 +110,12 @@ STOPWORDS = FINAL_DIR + 'stopwords.json'  # indexed stop words
 
 SYLLABLES = FINAL_DIR + 'syllables.json'  # indexed syllables
 
+ADJECTIVES = FINAL_DIR + 'adj.json'  # indexed adjectives
+
+NOUNS = FINAL_DIR + 'nouns.json'  # indexed nouns
+
+VERBS = FINAL_DIR + 'verbs.json'  # indexed verbs
+
 FINAL_MXM = FINAL.format(file='final0')
 
 # final charted set, mapped with lyrics and year

@@ -3,14 +3,16 @@
 from collections import OrderedDict
 from json import dump
 
+from nltk import pos_tag
 from nltk.corpus import stopwords
 
 from context import *
 from settings.filemgmt import fileManager
-from settings.paths import BOW, CURSE_RAW, CURSES, STOPWORDS, SYLLABLES
+from settings.paths import ADJECTIVES, BOW, CURSE_RAW, CURSES, NOUNS, \
+    STOPWORDS, SYLLABLES, VERBS
 
 
-bagOfWords = fileManager(BOW, 'r')
+bagOfWords = fileManager(BOW, 'r').split(',')
 
 
 def bagOfCurse():
@@ -26,7 +28,27 @@ def bagOfCurse():
 
 def bagOfStopWords():
 
-    return [str(word) for word in stopwords.words('english')]
+    stopWords = [str(word) for word in stopwords.words('english')]
+    stopWords.extend(
+        [
+            word for word in bagOfWords if word.isdigit() or len(word) < 2
+        ]
+    )
+
+    return stopWords
+
+
+def bagOfPOS():
+
+    pos = pos_tag(bagOfWords)
+
+    adj = [word[0] for word in pos if 'JJ' in word[-1]]
+
+    nouns = [word[0] for word in pos if 'NN' in word[-1]]
+
+    verbs = [word[0] for word in pos if 'VB' in word[-1]]
+
+    return adj, nouns, verbs
 
 
 def countSyllables(word):
@@ -58,12 +80,10 @@ def countSyllables(word):
 
 def bagOfSyllables():
 
-    words = bagOfWords.split(',')
-
     success = {}
 
-    for i in words:
-        success[i] = countSyllables(i)
+    for word in bagOfWords:
+        success[word] = countSyllables(word)
 
     return success
 
@@ -76,13 +96,11 @@ def convertToDict(featList):
 def intersectLists(bagOfFeats):
 
     feat = set(bagOfFeats)
-    # bagOfWords = fileManager(BOW, 'r')
-    words = bagOfWords.split(',')
 
-    interesects = list(feat & set(words))
+    interesects = list(feat & set(bagOfWords))
 
     return {
-        intersectWord: (words.index(intersectWord) + 1)
+        intersectWord: (bagOfWords.index(intersectWord) + 1)
         for intersectWord in interesects
     }
 
@@ -101,3 +119,15 @@ if __name__ == '__main__':
 
     syllables = bagOfSyllables()
     dumpJSON(syllables, SYLLABLES)
+
+    stopWords = bagOfStopWords()
+    stopWords = convertToDict(stopWords)
+    dumpJSON(stopWords, STOPWORDS)
+
+    adj, nouns, verbs = bagOfPOS()
+    adj = convertToDict(adj)
+    nouns = convertToDict(nouns)
+    verbs = convertToDict(verbs)
+    dumpJSON(adj, ADJECTIVES)
+    dumpJSON(nouns, NOUNS)
+    dumpJSON(verbs, VERBS)
