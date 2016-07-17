@@ -53,7 +53,7 @@ def bagOfPOS():
 
 def countSyllables(word):
 
-    vowels = "aeiouy"
+    vowels = 'aeiouy'
     numVowels = 0
     lastWasVowel = False
 
@@ -70,9 +70,8 @@ def countSyllables(word):
         if not foundVowel:
             lastWasVowel = False
 
-    # Remove es - it's "usually" silent (?)
-    if (len(word) > 2 and word[-2:] == "es") or \
-            (len(word) > 1 and word[-1:] == "e"):
+    if (len(word) > 2 and word[-2:] == 'es') or \
+            (len(word) > 1 and word[-1:] == 'e'):
         numVowels -= 1
 
     return numVowels

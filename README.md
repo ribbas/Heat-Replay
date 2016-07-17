@@ -1,4 +1,4 @@
-# Heat Replay <img src="https://github.com/kug3lblitz/Heat-Replay/blob/master/static/logo.png" width=10%>
+# Heat Replay <img src="https://github.com/kug3lblitz/Heat-Replay/blob/master/static/logo.png" width=10px>
 
 a data science project that will attempt to determine if the lyrical content of a song can predict 
 if it will hit the Billboard Year-End Hot 100 singles. The project will intersect several datasets to create a final
@@ -25,7 +25,7 @@ to the chart status of the song.
   2.  No (b’0)
 
 
-## Structure of repository:
+## Structure of repository
 ```
 src
 ├── data
@@ -47,12 +47,20 @@ src
 │   │       │   └── mxm.txt
 │   │       └── mxm_tid.txt
 │   ├── final
+│   │   ├── adj.json
 │   │   ├── bow.txt
 │   │   ├── charted_tid.txt
+│   │   ├── charted.txt
 │   │   ├── curses.json
+│   │   ├── final.csv
 │   │   ├── more0.txt
 │   │   ├── more1.txt
-│   │   └── MSD_mxm.txt
+│   │   ├── MSD_mxm.txt
+│   │   ├── nouns.json
+│   │   ├── stopwords.json
+│   │   ├── syllables.json
+│   │   ├── uncharted.txt
+│   │   └── verbs.json
 │   ├── README.md
 │   └── transitional
 │       ├── charted
@@ -63,17 +71,29 @@ src
 │           └── mxm_filtered.txt
 ├── db
 │   ├── analytics
+│   │   ├── analytics.py
 │   │   ├── context.py
-│   │   ├── curse_analytics.py
-│   │   └── test.csv
+│   │   └── index_feat.py
 │   └── mgmt
-│       ├── charted
-│       │   ├── charted.py
-│       │   └── context.py
 │       ├── DataWaves
 │       │   ├── context.py
 │       │   ├── lyrics.py
 │       │   └── scrapeLyrics.py
+│       ├── final
+│       │   ├── charted_final.py
+│       │   ├── charted_tid_title.txt
+│       │   ├── charted_tid_year_title.txt
+│       │   ├── concat.py
+│       │   ├── context.py
+│       │   ├── more0_failed.txt
+│       │   ├── more0_f.txt
+│       │   ├── more1_failed.txt
+│       │   ├── more1_f.txt
+│       │   ├── uncharted_final.py
+│       │   └── uncharted_f.txt
+│       ├── HotSingles
+│       │   ├── context.py
+│       │   └── hot_singles.py
 │       ├── msd
 │       │   ├── context.py
 │       │   ├── display_song.py
@@ -88,10 +108,11 @@ src
 │           ├── mxm_combine.py
 │           ├── mxm_filter.py
 │           └── mxm_main.py
+├── models
 └── settings
     ├── filemgmt.py
     ├── paths.py
     └── regexify.py
 
-19 directories, 45 files
+22 directories, 65 files
 ```

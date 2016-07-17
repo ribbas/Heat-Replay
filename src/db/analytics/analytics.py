@@ -4,6 +4,7 @@
 """
 
 from random import shuffle
+from time import time
 
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from pandas import concat, DataFrame
@@ -14,6 +15,7 @@ from settings.paths import CHARTED, FINAL_SET, UNCHARTED
 from settings.paths import BOW, CURSES, STOPWORDS, SYLLABLES, ADJECTIVES, \
     NOUNS, VERBS
 
+start = time()
 
 filteredCols = [
     'year',
@@ -89,6 +91,39 @@ def readingScore(density, densityRaw, syllables):
     return score
 
 
+def mostUsed(density, uniqueWords):
+
+    maxIndex = max(density)
+
+    indices = [
+        index for index, val in enumerate(density) if val == maxIndex
+    ]
+
+    maxVals = []
+
+    for maxes in indices:
+        maxVals.append(uniqueWords[maxes] - 1)
+
+    return min(maxVals) + 1
+
+
+def makeSentence(bow, density, uniqueWords):
+
+    sent = ' '.join(
+        [
+            (
+                (bow[i - 1] + ' ') * density[uniqueWords.index(i)]
+            ) for i in uniqueWords
+        ]
+    ).split()
+
+    shuffle(sent)
+
+    sent = ' '.join(sent)
+
+    return sid.polarity_scores(sent)['compound']
+
+
 def generateCol(path, analyzedFeats):
 
     dataset = loadSet(path)
@@ -161,22 +196,13 @@ def generateCol(path, analyzedFeats):
 
         mappedLyrics['density_raw'] = sum(densityRaw)
 
-        maxIndex = max(density)
-        indices = [
-            index for index, val in enumerate(density) if val == maxIndex
+        mostUsedIndex = mostUsed(density, uniqueWords)
+
+        mappedLyrics['most_used_term'] = bow[mostUsedIndex - 1]
+
+        mappedLyrics['most_used_freq'] = density[
+            uniqueWords.index(mostUsedIndex)
         ]
-
-        maxVals = []
-        mostUsed = ''
-
-        for maxes in indices:
-            maxVals.append(uniqueWords[maxes] - 1)
-
-        mostUsed = min(maxVals) + 1
-
-        mappedLyrics['most_used_term'] = bow[mostUsed - 1]
-
-        mappedLyrics['most_used_freq'] = density[uniqueWords.index(mostUsed)]
 
         mappedLyrics['syllables'] = totalSyllables
 
@@ -184,25 +210,13 @@ def generateCol(path, analyzedFeats):
         mappedLyrics['nouns'] = totalNouns
         mappedLyrics['verbs'] = totalVerbs
 
-        sent = ' '.join(
-            [
-                (
-                    (bow[i - 1] + ' ') * density[uniqueWords.index(i)]
-                ) for i in uniqueWords
-            ]
-        ).split()
+        mappedLyrics['sentiment'] = makeSentence(bow, density, uniqueWords)
 
-        shuffle(sent)
-
-        sent = ' '.join(sent)
-
-        mappedLyrics['sentiment'] = sid.polarity_scores(sent)['compound']
-
-        mappedLyrics['reading_score'] = \
-            readingScore(sum(density), sum(densityRaw), totalSyllables)
+        mappedLyrics['reading_score'] = readingScore(
+            sum(density), sum(densityRaw), totalSyllables
+        )
 
         df.append(mappedLyrics)
-
         mappedLyrics = {}
 
     return DataFrame(df)
@@ -230,6 +244,8 @@ if __name__ == '__main__':
 
     df = concat([charted, uncharted])
     df.sort_values('year', ascending=True, inplace=True)
-    # sid.polarity_scores()['compound']print df[['year', 'most_used_term',
-    # 'most_used_freq']].tail(10)
     df.to_csv(FINAL_SET, index=False)
+
+    end = time()
+    print 'Script took ' + '{0:.3f}'.format((end - start)) + \
+        ' seconds to generate data.'
