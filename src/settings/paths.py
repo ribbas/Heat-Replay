@@ -18,6 +18,7 @@ TRANS_DIR = DATA_DIR + '/transitional/'  # transitional datasets
 # ----------------- Global file paths ----------------- #
 
 FINAL = FINAL_DIR + FILE  # final datasets
+FEATURES = FINAL_DIR + '{file}.json'  # final features
 
 # --------- Archived directories --------- #
 
@@ -104,17 +105,17 @@ MORE0 = FINAL.format(file='more0')  # charted songs with lyrics
 
 MORE1 = FINAL.format(file='more1')  # scraped charted songs with lyrics
 
-CURSES = FINAL_DIR + 'curses.json'  # indexed curse words
+CURSES = FEATURES.format(file='curses')  # indexed curse words
 
-STOPWORDS = FINAL_DIR + 'stopwords.json'  # indexed stop words
+STOPWORDS = FEATURES.format(file='stopwords')  # indexed stop words
 
-SYLLABLES = FINAL_DIR + 'syllables.json'  # indexed syllables
+SYLLABLES = FEATURES.format(file='syllables')  # indexed syllables
 
-ADJECTIVES = FINAL_DIR + 'adj.json'  # indexed adjectives
+ADJECTIVES = FEATURES.format(file='adj')  # indexed adjectives
 
-NOUNS = FINAL_DIR + 'nouns.json'  # indexed nouns
+NOUNS = FEATURES.format(file='nouns')  # indexed nouns
 
-VERBS = FINAL_DIR + 'verbs.json'  # indexed verbs
+VERBS = FEATURES.format(file='verbs')  # indexed verbs
 
 FINAL_MXM = FINAL.format(file='final0')
 

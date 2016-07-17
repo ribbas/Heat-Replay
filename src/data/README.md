@@ -28,16 +28,17 @@ data
 │           └── mxm.txt; joined set
 │
 ├── final; final datasets to be used in the frontend analysis
-│   ├── adj.json; indexed adjectives in the bag of words
+│   ├── features
+│   │   ├── adj.json; indexed adjectives in the bag of words
+│   │   ├── curses.json; indexed curse words in the bag of words
+│   │   ├── nouns.json; indexed nouns in the bag of words
+│   │   ├── stopwords.json; indexed stopwords in the bag of words
+│   │   ├── syllables.json; indexed syllables for the bag of words
+│   │   └── verbs.json; indexed verbs in the bag of words
 │   ├── bow.txt; bag of words used in the musiXmatch dataset
 │   ├── charted.txt; tids, titles, lyrics and years of the charted songs
-│   ├── curses.json; indexed curse words in the bag of words
 │   ├── final.csv; final dataset
-│   ├── nouns.json; indexed nouns in the bag of words
-│   ├── stopwords.json; indexed stopwords in the bag of words
-│   ├── syllables.json; indexed syllables for the bag of words
-│   ├── uncharted.txt; tids, titles, lyrics and years of the uncharted songs
-│   └── verbs.json; indexed verbs in the bag of words
+│   └── uncharted.txt; tids, titles, lyrics and years of the uncharted songs
 │
 └── transitional; transitional datasets
     ├── charted;
