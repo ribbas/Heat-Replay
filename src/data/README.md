@@ -47,32 +47,10 @@ data
 │   └── uncharted.txt; tids, titles, lyrics and years of the uncharted songs
 │
 └── transitional; transitional datasets
-    │
-    ├── charted;
-    │   ├── charted_failed.txt; charted songs that did not have a tid
-    │   ├── charted_mxm.txt; charted songs that did have a tid
-    │   ├── charted_tid.txt; tids of the charted songs
-    │   ├── charted_tid_title.txt; tids and titles of the charted songs
-    │   └── charted_tid_year_title.txt; tids, titles and years of the charted songs
-    │
-    ├── extra_db; extra databases compiled for very temporary uses
-    │   ├── more0.txt; uncharted dataset temp
-    │   ├── more0_failed.txt; uncharted dataset temp
-    │   ├── more0_f.txt; uncharted dataset temp
-    │   ├── more1.txt; charted dataset temp
-    │   ├── more1_failed.txt; charted dataset temp
-    │   ├── more1_f.txt; charted dataset temp
-    │   └── uncharted_f.txt; uncharted dataset temp
-    │
-    └── mxm;
-        ├── MSD_mxm.txt; intersection of mxm and MSD
-        ├── mxm_filtered_raw.txt; curtailed mxm
-        ├── mxm_filtered.txt; curtailed mxm
-        └── mxm_tid.txt; only tids of the entire set
 
 11 directories, 36 files
 ```
 
 ## Diagram of the datasets
 
-![](https://github.com/kug3lblitz/Heat-Replay/blob/master/static/db_diagram.png)
+![](https://github.com/kug3lblitz/Heat-Replay/blob/master/src/assets/static/db_diagram.png)

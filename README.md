@@ -1,4 +1,4 @@
-# Heat Replay <img src="https://github.com/kug3lblitz/Heat-Replay/blob/master/static/logo.png" width=100px>
+# Heat Replay <img src="https://github.com/kug3lblitz/Heat-Replay/blob/master/src/assets/static/logo.png" width=100px>
 
 A data science project that will attempt to determine if the lyrical content of a song can predict 
 if it will hit the Billboard Year-End Hot 100 singles. The project will intersect several datasets to create a final
@@ -37,9 +37,8 @@ to the chart status of the song.
 ```
 src
 ├── data; the datasets for the project
-├── db; scripts to build the datasets
-├── models; scripts and notebooks to generate the models for the project
-└── settings; general configuration for the project
+├── code; scripts to build the datasets
+└── assets; static files and docs
 
 23 directories, 60 files
 ```

@@ -18,7 +18,7 @@ TRANS_DIR = DATA_DIR + '/transitional/'  # transitional datasets
 # ----------------- Global file paths ----------------- #
 
 FINAL = FINAL_DIR + FILE  # final datasets
-FEATURES = FINAL_DIR + '{file}.json'  # final features
+FEATURES = FINAL_DIR + 'features/' + '{file}.json'  # final features
 
 # --------- Archived directories --------- #
 
@@ -130,3 +130,17 @@ FINAL_SET = FINAL_DIR + 'final.csv'  # final dataset
 # ----------------- Global variables ----------------- #
 
 sep = '<SEP>'  # delimiter for all datasets
+
+
+if __name__ == '__main__':
+
+    # quick check to determine if files exist
+    paths = locals()
+
+    for file, path in paths.items():
+        if file.isupper():
+            try:
+                if exists(path):
+                    print file, ':', path
+            except Exception as e:
+                print 'Error with', file, ':', e
