@@ -127,6 +127,8 @@ UNCHARTED = FINAL.format(file='uncharted')
 
 FINAL_SET = FINAL_DIR + 'final.csv'  # final dataset
 
+BEST_PARAM = FINAL_DIR + 'best_param.txt'
+
 # ----------------- Global variables ----------------- #
 
 sep = '<SEP>'  # delimiter for all datasets
