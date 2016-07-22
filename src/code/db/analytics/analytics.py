@@ -36,7 +36,7 @@ filteredCols = [
     'most_used_term',
     'most_used_freq',
 
-    'curses',
+    'explicit',
     'total_curses',
 
     'reading_score',
@@ -186,7 +186,7 @@ def generateCol(path, analyzedFeats):
 
         mappedLyrics['total_curses'] = totalCurses
 
-        mappedLyrics['curses'] = 1 if totalCurses else 0
+        mappedLyrics['explicit'] = 1 if totalCurses else 0
 
         mappedLyrics['unique_words'] = len(uniqueWords)
 
