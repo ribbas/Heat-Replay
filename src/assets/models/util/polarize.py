@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from numpy import linspace
-from pandas import get_dummies
+from pandas import get_dummies, DataFrame
 
 
 def sentiment(row):
@@ -16,10 +16,10 @@ def sentiment(row):
 
 def reading_score(row):
 
-    if row['reading_score'] < 3:
+    if row['reading_score'] < 2:
         return 0
 
-    elif row['reading_score'] >= 3:
+    elif row['reading_score'] >= 2:
         return 1
 
 
@@ -29,7 +29,7 @@ def dummyfy(df, feature, y):
         # get dummy variables
         df_new = df.join(get_dummies(df[feature], prefix=feature))
         # remove column
-        df_new.drop([feature], axis=1, inplace=True)
+        # df_new.drop([feature], axis=1, inplace=True)
 
     # list of features to use to build model
     features = [i for i in df_new.columns if feature + '_' in i]
@@ -38,17 +38,18 @@ def dummyfy(df, feature, y):
     return df_new, features
 
 
-def plotFeature(df_new, features, xLabel, yLabel, labels):
+def plotFeature(df_new, features, prob, xLabel, yLabel, labels):
 
     ax = plt.subplot(111)
     colors = [cm.jet(x) for x in linspace(0, 1, len(labels))]
     for i, v in enumerate(labels):
         df_new[df_new[features[i]] == 1].plot(
-            xLabel, 'probability', color=colors[i],
+            xLabel, prob, color=colors[i],
             kind='scatter', label=v, ax=ax
         )
 
     ax.set(
-        title='Probability of Charted\n Based on ' + xLabel + ' and ' + yLabel
+        title='Probability of Charted\n Based on ' +
+        xLabel.capitalize() + ' and ' + yLabel.capitalize()
     )
     plt.legend(loc='upper right')
