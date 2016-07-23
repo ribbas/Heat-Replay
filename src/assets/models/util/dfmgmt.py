@@ -1,3 +1,16 @@
+from pandas import read_csv
+
+
+def initSet():
+
+    # URL to dataset
+    dataUrl = 'https://raw.githubusercontent.com/kug3lblitz/Heat-Replay/' \
+        + 'master/src/data/final/final.csv'
+
+    # Load the dataset
+    return read_csv(dataUrl)
+
+
 def wrangle(df='', dropList=[], removeList=[]):
 
     # Completely drop from set

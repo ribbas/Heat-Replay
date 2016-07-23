@@ -1,25 +1,32 @@
 from re import compile
 
 from numpy import power
+from pandas import DataFrame
+from seaborn import barplot, plt
+from sklearn.cross_validation import train_test_split
 from sklearn.grid_search import GridSearchCV
 from sklearn.metrics import roc_auc_score
 from sklearn import neighbors, linear_model, tree, ensemble
 
 splitByCaps = compile('[A-Z][^A-Z]*')
 
-BEST_PARAMS = 'best_params.txt'
 
+class Classifiers():
 
-class Models():
+    def __init__(self, X, y):
 
-    def __init__(self, X_train, X_test, y_train, y_test):
+        self.X = X
+        self.y = y
 
         # Create separate training and test sets with 60/40 train/test split
         self.X_train, self.X_test, self.y_train, self.y_test = \
-            X_train, X_test, y_train, y_test
+            train_test_split(
+                X, y, test_size=0.4, random_state=42
+            )
 
         self.__bestParams = {}
         self.__models = {}
+        self.bestModel = ()
 
     def initModels(self):
 
@@ -29,8 +36,6 @@ class Models():
             'tm': tree.DecisionTreeClassifier(),
             'rf': ensemble.RandomForestClassifier()
         }
-
-        return self.__models
 
     def defaultParams(self):
 
@@ -62,7 +67,7 @@ class Models():
         self.gs = {modelName: None for modelName in self.__models.keys()}
 
         # Set list of values to grid search over
-        n = [power(2, i + 1) for i in range(10)]
+        n = [power(2, i) for i in range(11)]
 
         params = {
             'knn': {'n_neighbors': n},
@@ -81,6 +86,10 @@ class Models():
             )
 
     def gridSearch(self):
+
+        print "Grid searching for best parameters:\n"
+
+        maxAccuracy = 0
 
         for grid, model in zip(self.gs, self.__models):
 
@@ -104,6 +113,10 @@ class Models():
                 self.gs[grid].best_score_
             )
 
+            if self.gs[grid].best_score_ > maxAccuracy:
+                maxAccuracy = self.gs[grid].best_score_
+                self.bestModel = (modelName, self.gs[grid].best_params_)
+
     def updateParams(self):
 
         self.__models['knn'].set_params(
@@ -119,6 +132,53 @@ class Models():
             n_estimators=self.__bestParams['rf'].values()[0]
         )
 
-    def getBestParams(self):
+    def getBestParams(self, path):
 
-        return self.__bestParams
+        print 'Best model is {} with {}'.format(
+            self.bestModel[0],
+            self.bestModel[-1])
+
+        with open(path, 'w') as file:
+            file.write(
+                str(self.bestModel[0]) + ' : ' + str(self.bestModel[-1])
+            )
+
+    def initProc(self):
+
+        self.initModels()
+        self.initGridSearches()
+
+    def plotModels(self):
+
+        for model in self.__models:
+
+            self.__models[model].fit(self.X_train, self.y_train)
+
+            modelName = ' '.join(
+                splitByCaps.findall(
+                    str(self.__models[model]).partition('(')[0]
+                )[:2]
+            )
+
+            try:
+                # Plot importances for all features
+                features = self.X.columns
+                feature_importances = self.__models[model].feature_importances_
+
+                print modelName
+                features_df = DataFrame(
+                    {
+                        'Features': features,
+                        'Importance Score': feature_importances
+                    }
+                )
+
+                features_df.sort_values(
+                    'Importance Score', inplace=True, ascending=False)
+
+                barplot(y='Features', x='Importance Score', data=features_df)
+                plt.show()
+
+            except:
+                print modelName, 'doesn\'t have feature importance.\n'
+                continue
