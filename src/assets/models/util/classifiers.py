@@ -25,12 +25,12 @@ class Classifiers():
             )
 
         self.__bestParams = {}
-        self.__models = {}
-        self.bestModel = ()
+        self.__clfs = {}
+        self.bestClf = ()
 
     def initModels(self):
 
-        self.__models = {
+        self.__clfs = {
             'knn': neighbors.KNeighborsClassifier(),
             'lm': linear_model.LogisticRegression(),
             'tm': tree.DecisionTreeClassifier(),
@@ -39,49 +39,51 @@ class Classifiers():
 
     def defaultParams(self):
 
-        print "Models with default parameters:\n"
+        print "Clasifiers with default parameters:\n"
 
-        for modelName, model in self.__models.items():
+        for clfName, clf in self.__clfs.items():
 
-            modelName = ' '.join(
+            clfName = ' '.join(
                 splitByCaps.findall(
-                    str(model).partition('(')[0]
+                    str(clf).partition('(')[0]
                 )[:2]
             )
 
-            # Train model on training set
-            print modelName
-            model.fit(self.X_train, self.y_train)
+            # Train clf on training set
+            print clfName
+            clf.fit(self.X_train, self.y_train)
 
             print "Accuracy: {:.3f}".format(
-                model.score(self.X_test, self.y_test)
+                clf.score(self.X_test, self.y_test)
             )
             print 'ROC AUC: {:0.3f}\n'.format(
                 roc_auc_score(
-                    self.y_test, model.predict_proba(self.X_test)[:, 1]
+                    self.y_test, clf.predict_proba(self.X_test)[:, 1]
                 )
             )
 
     def initGridSearches(self):
 
-        self.gs = {modelName: None for modelName in self.__models.keys()}
+        self.gs = {clfName: None for clfName in self.__clfs.keys()}
 
         # Set list of values to grid search over
-        n = [power(2, i) for i in range(11)]
+        n = [2**i for i in range(-10, 11)]
+        intN = n[len(n) / 2:]
+        intN = [int(i) for i in intN]
 
         params = {
-            'knn': {'n_neighbors': n},
+            'knn': {'n_neighbors': intN},
             'lm': {'C': n},
-            'tm': {'max_depth': n},
-            'rf': {'n_estimators': n}
+            'tm': {'max_depth': intN},
+            'rf': {'n_estimators': intN}
         }
 
         # Perform grid search using list of values
 
-        for model, obj in params.items():
+        for clf, obj in params.items():
 
-            self.gs[model] = GridSearchCV(
-                estimator=self.__models[model],
+            self.gs[clf] = GridSearchCV(
+                estimator=self.__clfs[clf],
                 param_grid=obj
             )
 
@@ -91,56 +93,58 @@ class Classifiers():
 
         maxAccuracy = 0
 
-        for grid, model in zip(self.gs, self.__models):
+        for grid, clf in zip(self.gs, self.__clfs):
 
             self.gs[grid].fit(self.X_train, self.y_train)
 
-            modelName = ' '.join(
+            clfName = ' '.join(
                 splitByCaps.findall(
-                    str(self.__models[grid]).partition('(')[0]
+                    str(self.__clfs[grid]).partition('(')[0]
                 )[:2]
             )
 
-            print modelName
+            print clfName
 
             # Get best value to use
             print "Best Params:", self.gs[grid].best_params_
             self.__bestParams[grid] = self.gs[grid].best_params_
-            print "Accuracy of current model: {:0.3f}".format(
-                self.__models[grid].score(self.X_test, self.y_test)
+
+            print "Accuracy of current clf: {:0.3f}".format(
+                self.__clfs[grid].score(self.X_test, self.y_test)
             )
+
             print "Accuracy using best param: {:0.3f}\n".format(
                 self.gs[grid].best_score_
             )
 
             if self.gs[grid].best_score_ > maxAccuracy:
                 maxAccuracy = self.gs[grid].best_score_
-                self.bestModel = (modelName, self.gs[grid].best_params_)
+                self.bestClf = (clfName, self.gs[grid].best_params_)
 
     def updateParams(self):
 
-        self.__models['knn'].set_params(
+        self.__clfs['knn'].set_params(
             n_neighbors=self.__bestParams['knn'].values()[0])
 
-        self.__models['lm'].set_params(
+        self.__clfs['lm'].set_params(
             C=self.__bestParams['lm'].values()[0]
         )
-        self.__models['tm'].set_params(
+        self.__clfs['tm'].set_params(
             max_depth=self.__bestParams['tm'].values()[0]
         )
-        self.__models['rf'].set_params(
+        self.__clfs['rf'].set_params(
             n_estimators=self.__bestParams['rf'].values()[0]
         )
 
     def getBestParams(self, path):
 
-        print 'Best model is {} with {}'.format(
-            self.bestModel[0],
-            self.bestModel[-1])
+        print 'Best clf is {} with {}'.format(
+            self.bestClf[0],
+            self.bestClf[-1])
 
-        with open('../params' + path, 'w') as file:
+        with open('../params/' + path, 'w') as file:
             file.write(
-                str(self.bestModel[0]) + ' : ' + str(self.bestModel[-1])
+                str(self.bestClf[0]) + ' : ' + str(self.bestClf[-1])
             )
 
     def initProc(self):
@@ -150,22 +154,22 @@ class Classifiers():
 
     def plotModels(self):
 
-        for model in self.__models:
+        for clf in self.__clfs:
 
-            self.__models[model].fit(self.X_train, self.y_train)
+            self.__clfs[clf].fit(self.X_train, self.y_train)
 
-            modelName = ' '.join(
+            clfName = ' '.join(
                 splitByCaps.findall(
-                    str(self.__models[model]).partition('(')[0]
+                    str(self.__clfs[clf]).partition('(')[0]
                 )[:2]
             )
 
             try:
                 # Plot importances for all features
                 features = self.X.columns
-                feature_importances = self.__models[model].feature_importances_
+                feature_importances = self.__clfs[clf].feature_importances_
 
-                print modelName
+                print clfName
                 features_df = DataFrame(
                     {
                         'Features': features,
@@ -180,5 +184,5 @@ class Classifiers():
                 plt.show()
 
             except:
-                print modelName, 'doesn\'t have feature importance.\n'
+                print clfName, 'doesn\'t have feature importance.\n'
                 continue

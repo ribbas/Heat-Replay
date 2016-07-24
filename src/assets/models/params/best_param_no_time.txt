@@ -1,1 +1,1 @@
-Logistic Regression : {'C': 1}
+Logistic Regression : {'C': 0.015625}

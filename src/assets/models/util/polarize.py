@@ -1,7 +1,19 @@
+from re import compile
+
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from numpy import linspace
 from pandas import get_dummies, DataFrame
+
+
+def getBestParam(path):
+
+    paramPat = compile('\{(.*?)\}')
+
+    with open('../params/' + path, 'r') as file:
+        return paramPat.findall(
+            file.read()
+        )[-1].partition(':')[-1].strip()
 
 
 def sentiment(row):
@@ -20,7 +32,7 @@ def dummyfy(df, feature, y):
         # get dummy variables
         df_new = df.join(get_dummies(df[feature], prefix=feature))
         # remove column
-        # df_new.drop([feature], axis=1, inplace=True)
+        df_new.drop([feature], axis=1, inplace=True)
 
     # list of features to use to build model
     features = [i for i in df_new.columns if feature + '_' in i]
