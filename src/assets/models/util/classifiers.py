@@ -138,7 +138,7 @@ class Classifiers():
             self.bestModel[0],
             self.bestModel[-1])
 
-        with open(path, 'w') as file:
+        with open('../params' + path, 'w') as file:
             file.write(
                 str(self.bestModel[0]) + ' : ' + str(self.bestModel[-1])
             )
