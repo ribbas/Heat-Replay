@@ -1,3 +1,4 @@
+from numpy import abs as np_abs
 from pandas import read_csv
 
 
@@ -11,7 +12,7 @@ def initSet():
     return read_csv(dataUrl)
 
 
-def wrangle(df='', dropList=[], removeList=[]):
+def wrangle(df='', dropList=[], removeList=[], returnFeature=False):
 
     # Completely drop from set
     df.drop(dropList, axis=1, inplace=True)
@@ -26,4 +27,17 @@ def wrangle(df='', dropList=[], removeList=[]):
             print col, 'doesn\'t exist'
             continue
 
-    return df, features
+    if returnFeature:
+        return df, features
+
+    return df
+
+
+def dropOutliers(df_test, tight):
+
+    return df_test[
+        np_abs(
+            df_test.probability - df_test.probability.mean()
+        ) <= (tight * df_test.probability.std()
+              )
+    ]

@@ -14,15 +14,6 @@ def sentiment(row):
         return 1
 
 
-def reading_score(row):
-
-    if row['reading_score'] < 2:
-        return 0
-
-    elif row['reading_score'] >= 2:
-        return 1
-
-
 def dummyfy(df, feature, y):
 
     if feature in df.columns:
