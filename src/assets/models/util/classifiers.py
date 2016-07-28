@@ -1,6 +1,5 @@
 from re import compile
 
-from numpy import power
 from pandas import DataFrame
 from seaborn import barplot, plt
 from sklearn.cross_validation import train_test_split
