@@ -18,11 +18,11 @@ def getBestParam(path):
 
 def sentiment(row):
 
-    if row['sentiment'] < 0:
+    if row['sentiment'] <= -0.5:
         return -1
-    elif row['sentiment'] == 0:
+    elif -0.5 < row['sentiment'] < 0.5:
         return 0
-    elif row['sentiment'] > 0:
+    elif row['sentiment'] >= 0.5:
         return 1
 
 

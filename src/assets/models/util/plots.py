@@ -41,7 +41,10 @@ def boxplotify(df, feature, path, title, save=True):
     plt.show()
 
 
-def meanLine(df, feature):
+def meanLine(df, feature, title, path):
+
+    fig, ax = plt.subplots(figsize=(12, 5))
+    fig.suptitle(title, fontsize=20)
 
     year = set(df['year'])
 
@@ -61,3 +64,6 @@ def meanLine(df, feature):
     )
 
     plt.plot(x, y, 'r-')
+    fig.savefig(staticDir.format(file=path))
+
+    plt.show()
