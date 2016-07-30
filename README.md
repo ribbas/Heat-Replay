@@ -1,6 +1,6 @@
 # Heat Replay <img src="https://github.com/kug3lblitz/Heat-Replay/blob/master/src/assets/static/logo.png" width=100px>
 
-Slides for the project are available on [Google Slides](https://docs.google.com/presentation/d/1Dhv5HM0RlNM2IXY349DZu5zE4PEEYr04red-n8pa_sM/edit?usp=sharing) or in PDF [here!]()
+Slides for the project are available on [Google Slides](https://docs.google.com/presentation/d/1Dhv5HM0RlNM2IXY349DZu5zE4PEEYr04red-n8pa_sM/edit?usp=sharing) or in PDF [here!](https://github.com/kug3lblitz/Heat-Replay/blob/master/src/assets/slides.pdf)
 
 A data science project that will attempt to determine if the lyrical content of a song can predict 
 if it will hit the Billboard Year-End Hot 100 singles. The project will intersect several datasets to create a final
