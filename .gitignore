@@ -4,6 +4,8 @@
 
 msd_raw/
 mxm_raw/
-.~lock*
+range1/
+range2/
 
+.~lock*
 .ipynb_checkpoints/
